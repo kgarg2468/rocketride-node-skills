@@ -47,7 +47,9 @@ What agents call on demand. No data flows *through* them — `lanes: {}`.
 
 ## Gotchas
 
-- Expose the 2–5 operations users need, not the vendor's whole API.
+- Expose the 2–5 operations users need, not the vendor's whole API — but the operation
+  *inventory* shown at Gate A must be complete (the cut is the user's call, not research's; see
+  rocketride-building-nodes Gate A).
 - Defensive inputs: `isinstance(x, bool) or not isinstance(x, int)` (JSON `true` must not become
   `1`); clamp ranges `max(1, min(50, n))`.
 - Never log the key; assert redaction in tests.

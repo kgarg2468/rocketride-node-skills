@@ -18,7 +18,8 @@ flows out on lanes. Raw `IGlobalBase`/`IInstanceBase` (no specialized base).
 
 ## services.json distinctives
 
-- `classType` is the **data category** (`["text"]`, `["audio"]`, `["image"]`…), not "processor".
+- `classType` is the **data category** (`["text"]`, `["audio"]`, `["image"]`; document parsers
+  of the llamaparse/reducto class use `["data"]`), not "processor".
 - The `lanes` block declares consumed/produced types, e.g.
   `{"text": ["text"], "documents": ["documents"]}`. Full ontology (10 lane types:
   questions/answers/documents/text/table/image/audio/video/tags/_source) with

@@ -29,9 +29,22 @@ against `origin/develop`. Archetype-specific traps live in the archetype skills.
   it's empty).
 - Every `.py` file starts with the **MIT license header** (Copyright Aparavi Software AG) — copy
   it verbatim from any existing node.
-- **SVG icon:** co-located in the node dir, referenced by filename. Use `fill="currentColor"`,
-  **never `fill="#000"`** — SVGO's preset-default strips default-black before the
-  auto-currentcolor pass, breaking dark mode.
+- **SVG icon:** co-located in the node dir, referenced by filename. The renderer **rejects SVGs
+  missing explicit `width`/`height` on the root element** and silently falls back to a generic
+  chain-link icon. Complete valid scaffold:
+
+  ```xml
+  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"
+       fill="currentColor">
+    <path d="..."/>
+  </svg>
+  ```
+
+  Use `fill="currentColor"`, **never `fill="#000"`** — SVGO's preset-default strips
+  default-black before the auto-currentcolor pass, breaking dark mode. **Sourcing:** for a
+  vendor node, users expect the vendor's official brand mark — prefer their brand SVG
+  (normalized to `currentColor` where the mark allows). If you draw an original glyph instead,
+  say so at Gate B and offer to swap in the brand SVG.
 - Real logic goes in a **helper module** (e.g. `detector.py`, `n8n_client.py`) so
   `IInstance` stays a thin adapter that's unit-testable without the engine.
 

@@ -37,6 +37,11 @@ Also fill the **services.json `test` block** (profiles/cases with placeholder AP
 comment that config validation, not live calls, is what's tested) — schema in
 `docs/README-node-testing.md` in the checkout. Some merged nodes (tool_v0, tool_firecrawl)
 ship without one — that's a gap in those nodes, not precedent; include it.
+**Known carve-out:** nodes whose only input is the binary `tags` lane (document parsers —
+llamaparse/reducto class). The framework can't feed binary into an inline `test` block, and zero
+tags-lane manifests ship one (verified against develop, June 2026). For those nodes: skip the
+block, state the exemption explicitly in the PR ("tags-lane node — the test framework can't
+drive binary input; the unit suite is the gate"), and make the unit suite carry that load.
 
 ## The two audits
 

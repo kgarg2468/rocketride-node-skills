@@ -20,7 +20,11 @@ moves; census at research time, trust the rules here, not the numbers.
 
 - **Data flows through it** → processor. **Agent calls it on demand** → tool. A node can be both
   (dual `classType`, e.g. `db_postgres` is `["database","tool"]`, `tool_n8n` is `["data","tool"]`)
-  — say so explicitly at Gate A.
+  — say so explicitly at Gate A. Apply the test **per operation, not per vendor**: a multi-op
+  vendor can be data-flow on one operation and tool-shaped on another (a parser's `parse` streams
+  through lanes; its schema-driven `extract` is an on-demand call). Name the tool-shaped
+  operations at Gate A even when the MVP is data-only — "if op X lands later, this likely becomes
+  dual" beats rediscovering the archetype mid-build.
 - A vendor with both an API *and* a hosted DB/storage product: ask what the user actually needs
   (the #1063 failure). Quote the issue text back at Gate A.
 - The hosted-flavor rule is the **rule, not the example**: it applies to any vendor whose wire

@@ -10,7 +10,7 @@ The file is JSONC — keep the explanatory comment blocks from the reference nod
 | `title` | Display name in the catalog |
 | `protocol` | `<node_name>://` |
 | `classType` | What it is: `["tool"]`, `["llm"]`, `["database","tool"]` (dual nodes list both) |
-| `capabilities` | Tool nodes: `["invoke", "experimental"]` — always mark new nodes `experimental` |
+| `capabilities` | **Every new node includes `"experimental"`** (pr-template rule — applies to all archetypes, not just tools). Tool nodes: `["invoke", "experimental"]`; processors add runtime needs (e.g. `"gpu"`) or ship `["experimental"]` alone. Older nodes without it (`reducto` `[]`, `llamaparse` `["gpu"]`) predate the rule — don't copy the omission. Decide the final value at Gate B and keep it; changing it mid-build without resurfacing is a silent spec change |
 | `register` | `"filter"` for nearly all nodes; `"endpoint"` for sources |
 | `node` | `"python"` |
 | `path` | `"nodes.<node_name>"` |

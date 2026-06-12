@@ -27,12 +27,14 @@ when all phases are done, and is the merge-readiness bar.
       C++ toolchain); if one fails on toolchain, record the degrade honestly (SKILL.md rung 4)
 - [ ] License header on every `.py` file
 - [ ] `requirements.txt` present (commented if empty)
-- [ ] Icon: SVG co-located, `fill="currentColor"`, no `fill="#000"`
+- [ ] Icon: SVG co-located, explicit `width`+`height` on the root `<svg>` (missing = renderer
+      silently falls back to a chain-link), `viewBox`, `fill="currentColor"`, no `fill="#000"`
 - [ ] Secure-field audit: `secure: true` + ApiKeyWidget on every secret, env fallback in
       IGlobal, no real defaults, `endGlobal()` clears secrets
 - [ ] `prefix` uniqueness: grep the catalog
 - [ ] Lane wiring valid against the ontology in `docs/README-nodes.md`
-- [ ] services.json `test` block present
+- [ ] services.json `test` block present — or the binary/`tags`-lane carve-out applies
+      (SKILL.md) and the PR states the exemption explicitly
 - [ ] Secret scan: no credentials anywhere. ⚠️ New (uncommitted) files are invisible to
       `git diff origin/develop...` — run `git add -N <new files>` first so the diff includes
       them, then `git diff origin/develop... | grep -iE 'key|token|secret'` eyeball
@@ -40,7 +42,9 @@ when all phases are done, and is the merge-readiness bar.
 **Behavioral:**
 - [ ] Live vendor harness (ladder rung 5) if feasible — fresh from-scratch seed, not a reused
       warm environment; count and report checks ("15/15")
-- [ ] Offer the live-engine/IDE canvas walk-through to the user (rung 6)
+- [ ] Offer the live-engine/IDE canvas walk-through to the user (rung 6) — it passes only when
+      the **actual output payload** was seen (non-empty, expected shape), never on green
+      lifecycle rows alone
 
 **Review:**
 - [ ] Self code review of `git diff origin/develop...` (after `git add -N` so new files show)

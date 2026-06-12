@@ -19,20 +19,45 @@ Consequences:
   `grep <node_name> .rocketride/services-catalog.json` in the project — present means the canvas
   has it; absent after a true restart means the engine rejected the manifest.
 - The bundle copy goes stale on every code change — re-run the sync script each iteration.
+- **Config set on the canvas (API keys included) may not reach already-running node code** — a
+  key pasted into the node's panel after the engine spawned can leave the running parser
+  effectively unconfigured. Symptom: the node behaves as if no key is set even though the panel
+  shows one. After any config change on a freshly-synced node: Reload Window, then re-run,
+  before debugging the node itself.
+- **Icons are cached harder than code**: a hot-synced new/fixed SVG won't visibly update on
+  Reload Window — only a **full IDE quit + relaunch** clears it. Don't claim the icon renders
+  until someone has actually seen it render.
 
 (Some setups run the engine from the repo via `./builder nodes:build` — then sync is just the
 build. Check which engine the user's IDE actually spawned before assuming.)
 
 ## Canvas smoke test (with the user)
 
-1. Sync + Reload Window; Add Node → search for the node — it should appear with its icon.
+1. Sync + Reload Window; Add Node → search for the node — it should appear **with its real
+   icon**. A generic chain-link means the SVG was rejected (usually missing `width`/`height` —
+   see building-nodes gotchas.md).
 2. Wire a minimal pipe (e.g. Chat → node → Response), fill config (use `${VARS}` from the
-   Variables panel for keys), press ▶.
+   Variables panel for keys), press ▶. If config was edited after the engine spawned, Reload
+   Window first (see the trap list above).
 3. First run auto-installs the node's `requirements.txt` into the engine's Python env via
    `depends()` — one-time.
-4. Check the Trace tab for the node's calls.
+4. Check the Trace tab for the node's calls — then **open the actual output** (the Result row /
+   Response node payload). Green lifecycle rows + an empty payload is a FAIL, not a pass.
+   **Latency is the tell:** a remote-API node finishing in under ~1 s on a multi-MB input means
+   the API was never called (stale engine, key not propagated) — Reload Window and re-run.
 5. "Failed to start" with uvicorn `sys.exit(1)` is usually a **port conflict** from stray engine
    processes, not the node — retry, then Reload Window.
+
+## Debugging a live run
+
+- **Temporary diagnostics beat screenshot ping-pong.** When a canvas run misbehaves, add
+  `/tmp`-file logging to the node (bytes assembled? key present? vendor called? error body?),
+  sync, have the user reload + re-run once, then read the log yourself. One round-trip instead
+  of many. **Strip the diagnostics before commit** and say you did — the shipped diff must be
+  diagnostic-free.
+- **Never echo the user's API key back into chat** — refer to it indirectly ("the key you set").
+  Keys live in env vars, `${VARS}`, or gitignored `.context/` files; advise rotation if one was
+  pasted into the conversation.
 
 ## Live vendor harness (`.context/`, gitignored)
 
