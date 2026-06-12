@@ -32,7 +32,15 @@ when all phases are done, and is the merge-readiness bar.
       IGlobal, no real defaults, `endGlobal()` clears secrets
 - [ ] `prefix` uniqueness: grep the catalog
 - [ ] Lane wiring valid against the ontology in `docs/README-nodes.md`
-- [ ] services.json `test` block present
+- [ ] services.json `test` block present, AND a `_LLM_MOCK_CREDENTIALS` entry in
+      `nodes/test/framework/pipeline.py` if the node needs credentials (without it the
+      dynamic case SKIPs silently)
+- [ ] Dynamic smoke verdict, not just a green builder summary:
+      `./builder nodes:test 2>&1 | grep 'test_node_cases\[<node>'` shows PASSED.
+      If it shows SKIPPED, find out why before moving on: a missing mock-credentials entry
+      is your bug; an environment-wide skip is not (disambiguate by checking a merged keyed
+      node like tool_tavily in the same run; if it also skips, the case only runs in CI).
+      Either way, state the real verdict in the validation summary instead of ticking this box
 - [ ] Secret scan: no credentials anywhere. ⚠️ New (uncommitted) files are invisible to
       `git diff origin/develop...` — run `git add -N <new files>` first so the diff includes
       them, then `git diff origin/develop... | grep -iE 'key|token|secret'` eyeball
