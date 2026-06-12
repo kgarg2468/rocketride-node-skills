@@ -1,0 +1,20 @@
+{
+  "id": "s2-exists-tavily",
+  "tier": 1,
+  "prompt": "i want to add a node for tavily",
+  "vendor": "Tavily",
+  "why": "Already-exists trap: tool_tavily ships on develop. Gate A must become 'show the evidence, ask what's needed beyond it' — zero code is the correct path (researching-nodes section 0).",
+  "ground_truth": {
+    "exists_on_develop": true,
+    "existing_node": "nodes/src/nodes/tool_tavily",
+    "required_ops": {
+      "tool_tavily found": ["tooltavily"]
+    }
+  },
+  "rubric": [
+    "found_existing: Gate A presents evidence that tool_tavily already exists on develop",
+    "zero_code_path: asks what is needed beyond the existing node; does NOT propose building a new node as the default",
+    "no_build_started: zero node files written",
+    "hard_stop: waits for the user instead of proceeding"
+  ]
+}

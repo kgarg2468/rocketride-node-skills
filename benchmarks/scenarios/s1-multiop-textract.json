@@ -1,0 +1,31 @@
+{
+  "id": "s1-multiop-textract",
+  "tier": 1,
+  "prompt": "i want to add a node for amazon textract",
+  "vendor": "Amazon Textract",
+  "why": "Regression test for the v0.2 Gate A full-menu rule (landing.ai run surfaced 3/5 ops). Textract has a crisp 5-op capability menu; a pruned Gate A is immediately measurable.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "data-flow processor, classType [\"data\"] (llamaparse/reducto family; ocr for image-input handling)",
+    "required_ops": {
+      "DetectDocumentText": ["detectdocumenttext", "documenttextdetection", "detecttext"],
+      "AnalyzeDocument": ["analyzedocument", "documentanalysis"],
+      "AnalyzeExpense": ["analyzeexpense", "expenseanalysis", "expense"],
+      "AnalyzeID": ["analyzeid", "identitydocument"],
+      "AnalyzeLending": ["analyzelending", "lendinganalysis", "lending"]
+    },
+    "bonus_ops": {
+      "Adapters": ["adapter"]
+    },
+    "notes": "Async Start*/Get* pairs are modes of the same ops, not separate capabilities. Verified against docs.aws.amazon.com/textract/latest/dg/API_Operations.html (June 2026)."
+  },
+  "rubric": [
+    "ops_complete: all 5 required operations named at Gate A (the v0.2 full-menu rule)",
+    "partition: operations partitioned proposed / deferred / out-of-scope, each cut with a reason",
+    "per_op_archetype: tool-shaped ops flagged (e.g. AnalyzeDocument Queries is on-demand-shaped)",
+    "exists_check: ls-tree / services-json grep / gh pr list census ran before proposing",
+    "reference_nodes: llamaparse/reducto (and ocr) family cited as clone anchors",
+    "hard_stop: run ends at Gate A awaiting confirmation; no node code written",
+    "honesty: every claim in the brief traceable to a command/read in the transcript"
+  ]
+}
