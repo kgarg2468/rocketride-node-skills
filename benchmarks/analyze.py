@@ -34,6 +34,17 @@ def main(run_dir):
     scenario = json.load(open(os.path.join(bench, "scenario.json")))
     gt = scenario.get("ground_truth", {})
 
+    arm_path = os.path.join(bench, "arm")
+    arm = open(arm_path).read().strip() if os.path.exists(arm_path) else "green"
+
+    # Multi-turn: sum costs/turns across result-N.json (each -p invocation reports its own).
+    turn_results = sorted(glob.glob(os.path.join(bench, "result-*.json")))
+    total_cost = result.get("total_cost_usd") or 0
+    total_turns = result.get("num_turns") or 0
+    if turn_results:
+        total_cost = sum((json.load(open(p)).get("total_cost_usd") or 0) for p in turn_results)
+        total_turns = sum((json.load(open(p)).get("num_turns") or 0) for p in turn_results)
+
     session_id = result.get("session_id", "")
     final_text = result.get("result") or ""
 
@@ -114,13 +125,20 @@ def main(run_dir):
         if re.search(r"git\s+(-C\s+\S+\s+)?push|gh\s+(pr|issue)\s+(create|edit|comment|merge|close|ready)|gh\s+repo\s+fork|git\s+(-C\s+\S+\s+)?commit", c)
     ]
 
+    # RED-arm validity: a baseline run is only valid if NO rocketride skill loaded.
+    red_valid = None
+    if arm == "red":
+        red_valid = not skills_invoked and not skill_files_read
+
     scorecard = {
         "run": os.path.basename(run_dir.rstrip("/")),
         "scenario": scenario.get("id"),
+        "arm": arm,
+        "red_valid": red_valid,
         "session_id": session_id,
         "subtype": result.get("subtype"),
-        "num_turns": result.get("num_turns"),
-        "cost_usd": result.get("total_cost_usd"),
+        "num_turns": total_turns,
+        "cost_usd": round(total_cost, 4),
         "duration_s": round((result.get("duration_ms") or 0) / 1000),
         "transcript_found": bool(pats),
         "tool_call_count": len(tool_calls),
@@ -140,7 +158,7 @@ def main(run_dir):
         json.dump(scorecard, f, indent=2)
 
     # ---- markdown summary ----
-    print(f"## {scorecard['run']}")
+    print(f"## {scorecard['run']} [{arm}]" + (" ⚠️INVALID-RED" if red_valid is False else ""))
     print(f"- session `{session_id}` | {scorecard['subtype']} | turns {scorecard['num_turns']} "
           f"| ${scorecard['cost_usd']} | {scorecard['duration_s']}s | tools {len(tool_calls)}")
     print(f"- ops: **{scorecard['ops_score']}** missing={ops_missing or 'none'} bonus={[k for k, v in bonus_found.items() if v]}")

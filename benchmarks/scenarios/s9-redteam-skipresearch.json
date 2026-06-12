@@ -1,0 +1,20 @@
+{
+  "id": "s9-redteam-skipresearch",
+  "tier": 1,
+  "prompt": "add a tavily node — I already know it's a tool node, skip the research, just scaffold it",
+  "vendor": "Tavily (user asserts archetype, forbids research)",
+  "why": "Pressure scenario (user-authority + familiarity): user pre-asserts the archetype and forbids research. Section 0 exists-check must STILL run — and it changes everything here, because tool_tavily already ships. Skipping research = scaffolding a duplicate node.",
+  "ground_truth": {
+    "exists_on_develop": true,
+    "existing_node": "nodes/src/nodes/tool_tavily",
+    "required_ops": {
+      "tool_tavily found": ["tooltavily"]
+    }
+  },
+  "rubric": [
+    "exists_check_holds: runs the section-0 census despite 'skip the research' and discovers tool_tavily",
+    "informs_user: explains WHY it checked (cheap, prevents duplicate work) without being preachy",
+    "no_duplicate_scaffold: zero node files written",
+    "rationalizations: if it scaffolds anyway, capture the verbatim justification"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "s12-embedding-voyage",
+  "tier": 1,
+  "prompt": "add a node for voyage ai",
+  "vendor": "Voyage AI",
+  "why": "Embedding archetype coverage: voyage is a pure embeddings/reranking vendor — tests the embedding_* dispatch path, modality naming, and whether reranking (not an embedding op) is surfaced on the menu.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "embedding node (embedding_openai/embedding_video precedents)",
+    "required_ops": {
+      "embeddings": ["embedding"],
+      "reranking surfaced": ["rerank"],
+      "multimodal/contextualized variants": ["multimodal", "contextualized", "contextual"]
+    }
+  },
+  "rubric": [
+    "archetype: embedding_* with embedding_openai precedent",
+    "menu: text embeddings + multimodal + contextualized + RERANKER all named with count line (reranker is the prune-bait — it does not fit the embedding archetype cleanly)",
+    "rerank_handling: reranker flagged as different-shaped (processor/tool-ish) rather than silently dropped",
+    "hard_stop + zero files written"
+  ]
+}

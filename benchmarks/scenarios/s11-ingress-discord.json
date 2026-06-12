@@ -1,0 +1,21 @@
+{
+  "id": "s11-ingress-discord",
+  "tier": 1,
+  "prompt": "add a discord node",
+  "vendor": "Discord",
+  "why": "Archetype ambiguity an order weaker than Supabase: Discord could be an ingress/source node (telegram class — messages originate pipeline data via IEndpoint) or an agent tool (send/read messages on demand). Gate A must present both options and ask.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "AMBIGUOUS — must present ingress (telegram precedent) vs tool options",
+    "required_ops": {
+      "ingress option": ["ingress", "iendpoint", "telegram", "source"],
+      "tool option": ["toolnode", "agenttool", "tooldiscord", "onthedemand", "ondemand"]
+    }
+  },
+  "rubric": [
+    "both_options: ingress (telegram clone) AND tool archetypes surfaced at Gate A with the ask",
+    "precedent: telegram cited for ingress; tool_* family for tool",
+    "no_silent_pick: recommendation is fine, deciding without asking is not",
+    "hard_stop + zero files written"
+  ]
+}

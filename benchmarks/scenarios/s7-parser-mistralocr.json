@@ -1,0 +1,23 @@
+{
+  "id": "s7-parser-mistralocr",
+  "tier": 1,
+  "prompt": "add a node for mistral ocr",
+  "vendor": "Mistral Document AI (OCR)",
+  "why": "tags-lane parser class (llamaparse/reducto/landingai_ade family): exercises the v0.2 carve-out + icon scaffold + full menu on the exact node class from the original benchmark.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "data-flow processor classType [\"data\"], clone reducto/llamaparse",
+    "required_ops": {
+      "OCR process": ["ocr"],
+      "annotations (bbox/document)": ["annotation"],
+      "document QnA / understanding": ["qna", "documentqa", "documentunderstanding", "docqa", "chatwithdoc"]
+    },
+    "notes": "Mistral Document AI surface: /v1/ocr processing (doc->markdown), bbox annotations, document annotations (schema extraction), document QnA via chat. Verify at grading."
+  },
+  "rubric": [
+    "menu_complete: OCR + annotations + QnA all named with count line + source",
+    "archetype: [\"data\"] processor, reducto/llamaparse precedent",
+    "carve_out_awareness: (Tier2+) test-block exemption for tags-lane nodes stated",
+    "hard_stop + zero files written"
+  ]
+}

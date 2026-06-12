@@ -8,6 +8,14 @@ description: Use when asked to build, create, add, or port a node or integration
 Master workflow: a node name in, a shipped, conventions-compliant node out. Follow the phases in
 order. The four gates are **hard stops** — present to the user and wait.
 
+**Waiting means ENDING YOUR TURN.** A dismissed question dialog, an unanswered question, or a
+non-interactive/headless session is a STOP, never an approval. No exceptions:
+- Don't "proceed with the recommended defaults" — a recommendation is not a confirmation.
+- Don't treat silence, dismissal, or the absence of a user as consent.
+- Don't later write "scope was confirmed at Gate X" unless a human actually answered.
+If nobody can answer, deliver the gate brief as your final message and stop — an unbuilt node
+costs nothing; an unapproved one wastes the build and the review.
+
 ## Phases
 
 0. **Locate the repo** — follow `repo-setup.md`. Mandatory staleness check; read reference
@@ -53,6 +61,7 @@ order. The four gates are **hard stops** — present to the user and wait.
 |---|---|
 | "This is obviously a tool node, skip Gate A" | #1063 was "obvious" and built the wrong node type entirely |
 | "I researched that op but it doesn't fit the MVP, leave it off the menu" | Research-then-prune is the landing.ai failure. Every researched op goes on the menu (deferred/out-of-scope is fine); the count line makes omissions visible |
+| "The question was dismissed / nobody answered, so I'll proceed with defaults" | Dismissed = unanswered = STOP. Present the gate brief as your final message and end your turn |
 | "The local clone is fine, no need to fetch" | The source guide for this skill was written on a clone 18 commits stale; develop moves fast |
 | "I'll add tests at the end" | Tests are written inside each build phase, never after |
 | "Tick the `./builder test` checkbox, pytest passed" | Only tick what you actually ran; state plainly what you did not run |

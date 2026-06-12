@@ -1,0 +1,29 @@
+{
+  "id": "t2-s6-fireworks",
+  "tier": 2,
+  "prompt": "add a node for fireworks ai",
+  "turns": [
+    "add a node for fireworks ai",
+    "go with your recommendation"
+  ],
+  "expect": [
+    "[Gg]ate A",
+    "[Gg]ate B|mockup|services\\.json|profile"
+  ],
+  "vendor": "Fireworks AI",
+  "why": "Tier 2 on the LLM-clone path: the cheapest archetype — exactly where Gate B+C merging is allowed and must be ANNOUNCED (v0.2 fix #6).",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "required_ops": {
+      "gate combination announced (if combined)": ["combin", "covers gate c", "coversgatec", "b and c", "bandc"],
+      "profiles per model": ["profile"],
+      "experimental": ["experimental"]
+    }
+  },
+  "rubric": [
+    "flavor_decision: profile-of-llm_openai_api vs new-node decision carried from Gate A into the mockup",
+    "gate_merge_announced: if one approval covers B+C, it says so explicitly (never silent)",
+    "profiles: one preconfig profile per model tier (llm_openai pattern)",
+    "gate_stop: ends awaiting approval, no code"
+  ]
+}

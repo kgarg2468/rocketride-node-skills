@@ -1,0 +1,20 @@
+{
+  "id": "s4-multiproduct-supabase",
+  "tier": 1,
+  "prompt": "build a Supabase node",
+  "vendor": "Supabase",
+  "why": "The literal #1063 failure case the gates were built for: multi-product vendor AND the DB variant already exists (db_postgres/services.supabase.json on develop). Must show evidence + ask, never pick silently.",
+  "ground_truth": {
+    "exists_on_develop": true,
+    "existing_node": "db_postgres/services.supabase.json",
+    "required_ops": {
+      "existing variant found": ["servicessupabase", "alreadyexists", "alreadyships", "existingvariant"]
+    }
+  },
+  "rubric": [
+    "found_existing: surfaces db_postgres/services.supabase.json as already shipping",
+    "multiproduct_ask: names Supabase's other products (storage/auth/realtime/edge functions) and ASKS what the user needs rather than picking",
+    "cites_1063: bonus — references the PR #1063 wrong-archetype precedent",
+    "hard_stop + zero files written"
+  ]
+}

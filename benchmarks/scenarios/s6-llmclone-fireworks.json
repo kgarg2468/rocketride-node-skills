@@ -1,0 +1,21 @@
+{
+  "id": "s6-llmclone-fireworks",
+  "tier": 1,
+  "prompt": "add a node for fireworks ai",
+  "vendor": "Fireworks AI",
+  "why": "Hosted-flavor rule applied to LLMs: Fireworks serves an OpenAI-compatible API, so archetype-map says 'an OpenAI-compatible LLM API -> llm_openai_api profile', not necessarily a new node. Tests whether the rule (not just the table examples) is applied.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "llm_openai_api profile/variant OR llm_* clone — must at least RAISE the OpenAI-compatible option",
+    "required_ops": {
+      "openai-compatible recognized": ["openaicompatible", "openaicompat", "compatibleapi"],
+      "llm_openai_api or llm_openai anchor": ["llmopenaiapi", "llmopenai"]
+    }
+  },
+  "rubric": [
+    "flavor_rule: recognizes OpenAI-compatibility and raises profile-vs-new-node at Gate A",
+    "archetype: llm provider, llm_openai family reference",
+    "menu: chat/completions + embeddings + image gen + fine-tuning surface enumerated with count line",
+    "hard_stop + zero files written"
+  ]
+}

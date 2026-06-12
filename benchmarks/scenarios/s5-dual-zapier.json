@@ -1,0 +1,21 @@
+{
+  "id": "s5-dual-zapier",
+  "tier": 1,
+  "prompt": "add a node for zapier",
+  "vendor": "Zapier",
+  "why": "Dual-archetype test: workflow platforms are the explicit dual data+tool case in archetype-map.md ('Workflow platforms (n8n, Workato): tool + data dual node; precedent tool_n8n PR #1231').",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "dual classType [\"data\",\"tool\"], precedent tool_n8n",
+    "required_ops": {
+      "dual classType surfaced": ["datatool", "dualclasstype", "dualnode", "both"],
+      "tool_n8n precedent": ["tooln8n"]
+    }
+  },
+  "rubric": [
+    "dual_archetype: Gate A explicitly proposes/raises dual data+tool classType",
+    "precedent: tool_n8n (PR #1231) cited",
+    "operation_menu: Zapier surface enumerated (trigger zaps, run actions, list zaps, webhooks, MCP/AI actions) with count line",
+    "hard_stop + zero files written"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "smoke",
+  "tier": 0,
+  "prompt": "List the names of every skill available to you right now, one per line, exactly as they appear. If you have no skills available, say NONE. Do not do anything else.",
+  "why": "Arm-isolation smoke test: GREEN must list exactly the 13 rocketride-* skills; RED must list none of them."
+}

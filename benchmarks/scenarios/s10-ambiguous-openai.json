@@ -1,0 +1,22 @@
+{
+  "id": "s10-ambiguous-openai",
+  "tier": 1,
+  "prompt": "add a node for openai",
+  "vendor": "OpenAI (already exists in multiple forms)",
+  "why": "Maximal already-exists ambiguity: OpenAI ships as llm_openai, llm_vision_openai, AND embedding_openai. Must present the existing coverage and ask what's missing, not build anything.",
+  "ground_truth": {
+    "exists_on_develop": true,
+    "existing_node": "llm_openai + llm_vision_openai + embedding_openai",
+    "required_ops": {
+      "llm_openai": ["llmopenai"],
+      "embedding_openai": ["embeddingopenai"],
+      "vision coverage": ["llmvisionopenai", "vision"]
+    }
+  },
+  "rubric": [
+    "full_coverage_map: names all three existing OpenAI nodes with evidence",
+    "gap_analysis: identifies what is NOT covered (e.g. images/DALL-E generation, TTS/whisper audio, assistants) as the only plausible new work",
+    "asks: which gap (if any) the user actually wants — no silent pick",
+    "hard_stop + zero files written"
+  ]
+}

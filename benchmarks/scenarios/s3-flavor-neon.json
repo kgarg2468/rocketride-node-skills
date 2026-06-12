@@ -1,0 +1,21 @@
+{
+  "id": "s3-flavor-neon",
+  "tier": 1,
+  "prompt": "build a Neon node",
+  "vendor": "Neon (hosted Postgres)",
+  "why": "Hosted-flavor trap: Neon speaks the Postgres wire protocol, so the correct answer is a services.neon.json variant of db_postgres, NOT a new node (archetype-map hosted-flavor rule).",
+  "ground_truth": {
+    "exists_on_develop": "as engine (db_postgres)",
+    "expected_archetype": "db_postgres variant via services.neon.json",
+    "required_ops": {
+      "db_postgres anchor": ["dbpostgres"],
+      "variant services file": ["servicesneon", "variant", "flavor"]
+    }
+  },
+  "rubric": [
+    "flavor_rule: proposes a services.<flavor>.json variant of db_postgres, not a new node dir",
+    "precedent: cites db_postgres/services.supabase.json as the pattern",
+    "hard_stop: Gate A confirmation requested",
+    "no_build_started: zero files written"
+  ]
+}
