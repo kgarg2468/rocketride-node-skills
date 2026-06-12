@@ -38,6 +38,14 @@ comment that config validation, not live calls, is what's tested) — schema in
 `docs/README-node-testing.md` in the checkout. Some merged nodes (tool_v0, tool_firecrawl)
 ship without one — that's a gap in those nodes, not precedent; include it.
 
+⚠️ **A `test` block does nothing by itself for keyed nodes.** The dynamic runner
+(`nodes/test/test_dynamic.py`) SKIPs the case unless `nodes/test/framework/pipeline.py` has a
+matching `_LLM_MOCK_CREDENTIALS` entry for your node (one line, same as
+tool_tavily/tool_exa_search). The skip is silent: `./builder nodes:test` still ends in a green
+"Builder complete!". Add the entry in the same change as the `test` block, then verify the
+case's actual verdict (final-audit checklist has the grep). Found the hard way on tool_deepl:
+the block looked done, the case never ran.
+
 ## The two audits
 
 Defined in `e2e-audit-checklist.md`:
@@ -52,6 +60,7 @@ Defined in `e2e-audit-checklist.md`:
 | "I *ran* the builder (it failed), so I can tick the box" | The box says *passes*. Ran-and-failed = unticked + what happened |
 | "My node's tests pass, contract suite is someone else's problem" | Your services.json can break the catalog — run the full contract suite |
 | "Live test needs credentials, mark it passing anyway" | `pytest.mark.skip` + say in the PR it's not claimed as passing |
+| "Builder finished green, so my smoke case ran" | Keyed cases SKIP silently without a `_LLM_MOCK_CREDENTIALS` entry. Grep the output for your node's verdict |
 
 ## Supporting files
 

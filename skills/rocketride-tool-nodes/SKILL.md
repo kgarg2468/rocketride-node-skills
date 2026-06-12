@@ -47,7 +47,12 @@ What agents call on demand. No data flows *through* them — `lanes: {}`.
 
 ## Gotchas
 
-- Expose the 2–5 operations users need, not the vendor's whole API.
+- Expose the 2–5 operations users need, not the vendor's whole API. Pick them from a full
+  docs-index census (rocketride-researching-nodes step 2), not from the one endpoint the ask
+  named: the DeepL build that skipped the census missed the vendor's entire Write API.
+- A keyed tool node's services.json `test` block silently SKIPs in the dynamic runner unless
+  `nodes/test/framework/pipeline.py` has a matching `_LLM_MOCK_CREDENTIALS` entry. Add the
+  entry with the block; verify the verdict per rocketride-testing-nodes.
 - Defensive inputs: `isinstance(x, bool) or not isinstance(x, int)` (JSON `true` must not become
   `1`); clamp ranges `max(1, min(50, n))`.
 - Never log the key; assert redaction in tests.
