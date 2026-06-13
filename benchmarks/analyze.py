@@ -48,6 +48,14 @@ def main(run_dir):
     session_id = result.get("session_id", "")
     final_text = result.get("result") or ""
 
+    # Infra-invalid runs (session limit, model access, API overload) must not count as skill
+    # failures. Detect and flag; the aggregator excludes them from pass/fail.
+    err_markers = ("session limit", "issue with the selected model",
+                   "api error", "overloaded", "rate limit")
+    infra_invalid = bool(result.get("is_error")) or any(
+        m in final_text.lower() for m in err_markers
+    )
+
     # ---- locate + parse transcript (authoritative tool-call log) ----
     pats = glob.glob(os.path.expanduser(f"~/.claude/projects/*/{session_id}.jsonl"))
     transcript = load_jsonl(pats[0]) if pats else []
@@ -134,6 +142,7 @@ def main(run_dir):
         "run": os.path.basename(run_dir.rstrip("/")),
         "scenario": scenario.get("id"),
         "arm": arm,
+        "infra_invalid": infra_invalid,
         "red_valid": red_valid,
         "session_id": session_id,
         "subtype": result.get("subtype"),
