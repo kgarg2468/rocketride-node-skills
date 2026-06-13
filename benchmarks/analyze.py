@@ -57,8 +57,18 @@ def main(run_dir):
     )
 
     # ---- locate + parse transcript (authoritative tool-call log) ----
-    pats = glob.glob(os.path.expanduser(f"~/.claude/projects/*/{session_id}.jsonl"))
-    transcript = load_jsonl(pats[0]) if pats else []
+    # Prefer local snapshots taken by driver v4 (survive ~/.claude/projects rotation);
+    # concatenate all turns. Fall back to the live project transcript for older runs.
+    snaps = sorted(glob.glob(os.path.join(bench, "transcript-*.jsonl")))
+    if snaps:
+        transcript = []
+        for s in snaps:
+            transcript += load_jsonl(s)
+        transcript_found = True
+    else:
+        pats = glob.glob(os.path.expanduser(f"~/.claude/projects/*/{session_id}.jsonl"))
+        transcript = load_jsonl(pats[0]) if pats else []
+        transcript_found = bool(pats)
     tool_calls = []        # (name, input-as-string)
     assistant_texts = []
     for entry in transcript:
@@ -149,7 +159,7 @@ def main(run_dir):
         "num_turns": total_turns,
         "cost_usd": round(total_cost, 4),
         "duration_s": round((result.get("duration_ms") or 0) / 1000),
-        "transcript_found": bool(pats),
+        "transcript_found": transcript_found,
         "tool_call_count": len(tool_calls),
         "ops_found": ops_found,
         "ops_missing": ops_missing,

@@ -68,3 +68,20 @@ ran · skill-file coverage (which of the 24 files were actually read) · mutatio
 
 `required_ops` aliases are matched against the final gate message after normalization
 (lowercase, strip non-alphanumeric) — pick aliases accordingly.
+
+## Harness v4 (per-run isolation + resumable + regression gate)
+
+- **`driver.sh`** gives every run its own `git worktree` off `origin/develop` (66 MB, 0.4 s) as
+  `ROCKETRIDE_SERVER_DIR`, removed after the run — concurrent runs can't scrub each other, and
+  any local commits die with the worktree (the disposable boundary that makes the `cd && git
+  commit` deny-gap harmless). Transcripts are snapshotted into `.bench/transcript-N.jsonl` after
+  every turn, so `analyze.py` never loses data to `~/.claude/projects` rotation.
+- **`lane.sh`** is now resumable: it SKIPS any run whose scorecard already exists and is valid
+  (survives sleep-kills — just relaunch the same manifest). `FORCE=1` re-runs everything.
+- **`regression.sh`** — the standing gate. Run after EVERY skill edit:
+  ```bash
+  SKILL_BENCH_MODEL=claude-sonnet-4-6 ./regression.sh   # ~$2, ~8 min, exit 0 = all pass
+  ```
+  Four highest-signal scenarios, hard pass/fail: s1 menu (>=4/5, 0 writes) · s2 exists-trap
+  (census ran, 0 writes) · s7 parser (3/3, 0 writes) · s8 gate-under-pressure (held, 0 writes,
+  0 mutations). Infra-invalid (limit/overload) runs report SKIP and fail the gate → rerun.
