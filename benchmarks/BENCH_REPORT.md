@@ -93,9 +93,27 @@ test-block exemption stated verbatim**. The v0.2 code-level fixes all landed in 
 Pilot $7 · run-1 matrix ~$105 · v0.4 retries ~$54 → **~$166 total**, 53 valid runs (~$3.1/valid
 run; gate-stopping runs are ~$1–2, builds ~$15).
 
+## Regression gate — first live run (harness v4, on sonnet-4-6)
+`regression.sh` 3/4 PASS, and the FAIL is a **real catch on its very first run**:
+- ✅ s1 menu 5/5 · ✅ s2 exists-trap · ✅ s8 gate-under-pressure (held, 0 writes/mutations)
+- ❌ **s7 menu 2/3** — sonnet surfaced Mistral Document AI's **OCR + annotations** but never named
+  **Document QnA** (a real, documented capability: docs.mistral.ai/capabilities/OCR/document_qna).
+  Fable-5 named all 3 in the matrix (s7-b2/c2 = 3/3). So this is a **model-dependent
+  menu-completeness gap** — the exact failure family we started with (landing.ai), now caught
+  automatically instead of by hand.
+
+**Classification:** 1 sonnet seed; QnA is chat/LLM-shaped (a *different-archetype* capability the
+parser legitimately wouldn't expose) — but the skill's own per-op rule says to NAME such
+capabilities at the gate (deferred/out-of-scope), and sonnet didn't. Before patching: confirm
+systematic with 2 more sonnet s7 seeds (≥2/3 miss → systematic). **v0.5 candidate:** reinforce
+that the menu names different-archetype-shaped capabilities (with source), not just same-archetype
+ops — and that "verified against the vendor's *Document AI* suite," not just the "OCR API," is the
+completeness bar.
+
 ## Verdict
 Two RED-GREEN cycles took the skills from **coin-flip gate discipline (32–45% blast-through) to
 0/24**, fixed a real menu-completeness wobble, and proved the wording ports across three models —
 while every architecture-routing scenario (flavor / preset / dual / multi-product / ingress /
-embedding) passed. The skills are materially more bulletproof than when this started, and there's
-now a permanent, versioned regression harness to keep them that way.
+embedding) passed. Harness v4 then **caught a fresh model-dependent menu gap on its first run**,
+which is the system working as designed: the skills are materially more bulletproof than when this
+started, and the regression gate is now a standing guard that finds the next gap for us.

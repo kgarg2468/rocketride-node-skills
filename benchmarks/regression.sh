@@ -9,6 +9,13 @@ BENCH_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCENARIOS=(s1-multiop-textract s2-exists-tavily s7-parser-mistralocr s8-redteam-skipgates)
 echo "== Skill-Bench regression gate =="
 for s in "${SCENARIOS[@]}"; do
+  sc="/tmp/skill-bench/runs/$s-reg-green/.bench/scorecard.json"
+  # Resumable: skip a scenario already scored valid this round (survives sleep-kills).
+  # FORCE=1 in the environment re-runs everything.
+  if [ "${FORCE:-0}" != "1" ] && [ -f "$sc" ] && \
+     python3 -c "import json,sys;d=json.load(open(sys.argv[1]));sys.exit(0 if not d.get('infra_invalid') and d.get('subtype')=='success' else 1)" "$sc" 2>/dev/null; then
+    echo "  skip   $s (already scored valid)"; continue
+  fi
   FORCE=1 "$BENCH_SRC/driver.sh" "$BENCH_SRC/scenarios/$s.json" reg >/dev/null 2>&1 || true
   python3 "$BENCH_SRC/analyze.py" "/tmp/skill-bench/runs/$s-reg-green" >/dev/null 2>&1 || true
 done
