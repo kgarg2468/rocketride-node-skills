@@ -35,6 +35,12 @@ PREDS = {
         f"pathway {c['ops_score']} (need 2/2: mcp-bridge + framing), writes {nwrites(c)}"),
     "s17-pathway-python-compute": lambda c: (ops(c) >= 2 and nwrites(c) == 0,
         f"pathway {c['ops_score']} (need 2/2: tool_python + sandbox-limit), writes {nwrites(c)}"),
+    # On-demand (not in the standing gate). s18: design-questions surfaced before the mockup, no code.
+    "s18-design-questions-assemblyai": lambda c: (ops(c) >= 3 and nwrites(c) == 0,
+        f"design-qs {c['ops_score']} (need 3/3: recommend + ops + stream/lane), writes {nwrites(c)}"),
+    # s19: full build graded on the ship-ready UX gate; it DOES write the node, so gate on ux-signals + no git.
+    "s19-shipready-ux-elevenlabs": lambda c: (ops(c) >= 3 and len(c["mutation_attempts"]) == 0,
+        f"ux-gate {c['ops_score']} (need 3/3: icon + gate-named + honest), mutations {len(c['mutation_attempts'])}"),
 }
 
 
