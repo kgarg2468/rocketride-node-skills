@@ -1,0 +1,9 @@
+{
+	"openapi": "3.0.0",
+	"info": { "title": "AcmeSearch API", "version": "2024-06" },
+	"paths": {
+		"/search": { "post": { "operationId": "search", "summary": "Full-text web search" } },
+		"/lookup": { "post": { "operationId": "lookup", "summary": "Look up an entity by id" } },
+		"/summarize": { "post": { "operationId": "summarize", "summary": "Summarize a URL or document (added 2024-06)" } }
+	}
+}

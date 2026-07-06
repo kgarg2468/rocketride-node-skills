@@ -1,0 +1,13 @@
+{
+	"vendor": "AcmeSearch",
+	"node": "tool_acmesearch",
+	"archetype": "tool",
+	"api_version": "2024-01",
+	"openapi_url": "https://api.acmesearch.com/openapi.json",
+	"changelog_url": "https://acmesearch.com/changelog",
+	"supported_operations": [
+		{ "name": "search", "kind": "tool_function", "status": "implemented" },
+		{ "name": "lookup", "kind": "tool_function", "status": "implemented" }
+	],
+	"generated_by": "nodes:new"
+}
