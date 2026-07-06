@@ -1,0 +1,23 @@
+{
+  "id": "s13-image-segmentation",
+  "tier": 1,
+  "prompt": "build an image segmentation node",
+  "vendor": "Generic image segmentation",
+  "why": "Image/CV processor coverage: segmentation should route to the data-flow processor/image guidance and anchor on current CV nodes, not to LLM/tool/database archetypes.",
+  "ground_truth": {
+    "exists_on_develop": "as reference family (detect_segment/detect/background_removal/face_detection)",
+    "expected_archetype": "data-flow processor classType [\"image\"], image/CV references",
+    "required_ops": {
+      "processor archetype": ["processor", "dataflow", "dataflowprocessor"],
+      "image classType": ["classtypeimage", "\"image\"", "image"],
+      "detect_segment precedent": ["detectsegment"],
+      "image lanes": ["imagelane", "imageimage", "imagetotext", "imagetotags"]
+    }
+  },
+  "rubric": [
+    "archetype: data-flow processor/image, not LLM/tool",
+    "references: cites detect_segment plus related CV nodes such as detect, face_detection, or background_removal",
+    "testing: mentions fixture image service tests and fulltest/requiresLibs/GPU handling for heavy model cases",
+    "hard_stop + zero files written"
+  ]
+}

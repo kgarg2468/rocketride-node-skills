@@ -1,7 +1,8 @@
 # The stub-import test pattern
 
-Canonical example: `nodes/test/test_tool_v0.py` on `origin/develop` (22 tests, zero network).
-Read it before writing yours; the recipe:
+Canonical simple-node example: `nodes/test/test_tool_v0.py` on `origin/develop` (zero network).
+Multi-service packages may use nested tests such as `nodes/test/<node>/<service>/test_<service>.py`.
+Read the closest current reference before writing yours; the recipe:
 
 ## 1. Build stub modules
 
@@ -61,6 +62,8 @@ honestly — "not claimed as passing".
 ```bash
 uvx --python 3.11 --with pytest --with pytest-asyncio pytest nodes/test/test_<name>.py -v
 uvx --python 3.11 --with pytest --with pytest-asyncio pytest nodes/test/test_contracts.py
+./builder nodes:test
+./builder nodes:test-full      # when fulltest/heavy/live cases exist
 # full catalog contract suite — must stay green. Always include --with pytest-asyncio:
 # nodes/test/conftest.py hard-imports it; bare pytest fails to collect.
 ```

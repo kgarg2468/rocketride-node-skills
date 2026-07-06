@@ -39,18 +39,22 @@ feature (new pipeline/agent-tool node) + docs + tests
 
 ## Testing
 
-- [x] Tests added or updated — <N> unit + contract tests (`nodes/test/test_<name>.py`)
-- [x] Tested locally — ruff clean; <N> unit+contract pass; <live e2e summary if run>
-- [ ] `./builder test` passes — <ticked ONLY if you ran it AND it passed; otherwise an honest
-      one-liner describing what actually happened, e.g. "couldn't run the C++ builder locally
-      (toolchain not installed); the identical test_contracts.py passes via pytest; CI runs
-      the wrapper" — adapt it if the builder ran but failed>
+- [x] Tests added or updated — <N> unit + contract/service tests (`nodes/test/...`)
+- [x] Tested locally — ruff clean; <N> unit+contract/service pass; <live e2e summary if run>
+- [x] Docs added or updated — node README with required sections, upstream docs links, and
+      `ROCKETRIDE:GENERATED:PARAMS` marker block
+- [ ] `./builder nodes:docs-generate` refreshed generated docs block — <tick only if run and
+      diff checked; otherwise say why not>
+- [ ] `./builder nodes:test` passes — <ticked ONLY if you ran it AND it passed; otherwise an
+      honest one-liner describing what actually happened>
+- [ ] `./builder nodes:test-full` passes — <tick only when applicable and actually passed>
+- [ ] `./builder nodes:test-contracts` passes — <tick only if actually passed>
 
 ## Checklist
 
 - [x] Commit messages follow conventional commits
 - [x] No secrets or credentials included
-- [ ] Wiki updated (if applicable) — <or: docs added at docs/README-<x>.md + node README>
+- [ ] Wiki updated (if applicable) — <or: node README with generated marker blocks>
 - [x] Breaking changes documented (if applicable) — none (purely additive)
 
 ## Linked Issue
@@ -64,8 +68,11 @@ codebase` (cite the existing pattern matched), `## What changed` (file-by-file t
 
 ## Rules
 
-- Mark the node `"experimental"` in capabilities.
+- Capabilities must match the approved Gate B design and current precedent; do not add
+  `"experimental"` by reflex.
 - Validation claims must match reality exactly — reviewers and CI will diff them.
-- Core-change suggestions (anything in `packages/`) go in a PR comment or the issue as a pitch
-  for eng — never smuggled into the node PR.
-- A purely-additive diff is the goal: node dir + `nodes/test/` + `examples/` + `docs/`.
+- Public docs claims are post-merge only: say "pending docs deploy" until
+  `docs.rocketride.org/llms.txt` and `/nodes/<node>.md` have been checked.
+- Shared-code changes (anything in `packages/`) must be called out explicitly with rationale,
+  tests, and current precedent; never smuggle them into a node PR.
+- A node-local additive diff is the default goal: node dir + `nodes/test/` + `examples/`.

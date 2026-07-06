@@ -21,20 +21,31 @@ when all phases are done, and is the merge-readiness bar.
 ## Final massive e2e (merge readiness)
 
 **Static:**
-- [ ] ruff clean on the whole node dir + test file
+- [ ] ruff clean on the whole node dir + all touched test paths
 - [ ] Full unit suite + full `test_contracts.py` pass
-- [ ] `./builder nodes:test` / `nodes:test-contracts` — try them (they often run without the
-      C++ toolchain); if one fails on toolchain, record the degrade honestly (SKILL.md rung 4)
+- [ ] `./builder nodes:test`, `./builder nodes:test-full` when full/heavy cases exist, and
+      `./builder nodes:test-contracts` — record the exact commands and any fallback honestly
 - [ ] License header on every `.py` file
-- [ ] `requirements.txt` present (commented if empty)
+- [ ] `requirements.txt` present only when node-local deps or `depends()` bootstrap need it;
+      otherwise the mockup/PR explains why it is omitted
+- [ ] `README.md` present with generated marker blocks for the public node docs page; no
+      mandatory `doc.md` unless intentionally kept as supplemental legacy docs
+- [ ] README includes the required public-docs sections from `planning-nodes/docs-page.md`
+      and cites upstream vendor/API docs
+- [ ] Generated marker block is valid: exactly one START and END marker, START before END, no
+      hand-edited generated content claim
+- [ ] `./builder nodes:docs-generate` was run after services.json/docs changes, or the validation
+      summary states why marker contents were not refreshed locally
 - [ ] Icon: SVG co-located, explicit `width`+`height` on the root `<svg>` (missing = renderer
       silently falls back to a chain-link), `viewBox`, `fill="currentColor"`, no `fill="#000"`
 - [ ] Secure-field audit: `secure: true` + ApiKeyWidget on every secret, env fallback in
       IGlobal, no real defaults, `endGlobal()` clears secrets
 - [ ] `prefix` uniqueness: grep the catalog
 - [ ] Lane wiring valid against the ontology in `docs/README-nodes.md`
-- [ ] services.json `test` block present — or the binary/`tags`-lane carve-out applies
-      (SKILL.md) and the PR states the exemption explicitly
+- [ ] services.json `test` block present when the framework can drive the node; if omitted,
+      PR states the concrete reason (binary/parser-only, DB/no useful mock, heavy model, etc.)
+- [ ] Service tests use current schema correctly: `fulltest`, `requiresLibs`, `avoidMocks`,
+      profiles/controls/chain/outputs/timeout/cases as applicable
 - [ ] Secret scan: no credentials anywhere. ⚠️ New (uncommitted) files are invisible to
       `git diff origin/develop...` — run `git add -N <new files>` first so the diff includes
       them, then `git diff origin/develop... | grep -iE 'key|token|secret'` eyeball
@@ -42,7 +53,7 @@ when all phases are done, and is the merge-readiness bar.
 **Behavioral:**
 - [ ] Live vendor harness (ladder rung 5) if feasible — fresh from-scratch seed, not a reused
       warm environment; count and report checks ("15/15")
-- [ ] Offer the live-engine/IDE canvas walk-through to the user (rung 6) — it passes only when
+- [ ] Offer the live-engine/IDE canvas walk-through to the user (rung 7) — it passes only when
       the **actual output payload** was seen (non-empty, expected shape), never on green
       lifecycle rows alone
 
@@ -50,5 +61,8 @@ when all phases are done, and is the merge-readiness bar.
 - [ ] Self code review of `git diff origin/develop...` (after `git add -N` so new files show)
       — read it as a hostile reviewer: error semantics, input guards, secrets, dead code,
       stale comments
+- [ ] Public docs/LLM surface plan is stated for after merge: check
+      `https://docs.rocketride.org/llms.txt` and `https://docs.rocketride.org/nodes/<node>.md`
+      once docs deploy
 - [ ] `git status` shows ONLY intended files
 - [ ] Validation summary drafted for the PR with honest checkboxes (what ran, what didn't)

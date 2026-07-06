@@ -25,8 +25,9 @@ against `origin/develop`. Archetype-specific traps live in the archetype skills.
 
 ## Files & layout
 
-- **Per-node `requirements.txt` is expected even for zero-dep nodes** (add a comment saying why
-  it's empty).
+- **Per-node `requirements.txt` is not universal**. Add one when the node has node-local runtime
+  dependencies or the reference node uses `depends(requirements.txt)`. Stdlib-only/shared-dep
+  nodes can omit it; document the choice in the mockup.
 - Every `.py` file starts with the **MIT license header** (Copyright Aparavi Software AG) — copy
   it verbatim from any existing node.
 - **SVG icon:** co-located in the node dir, referenced by filename. The renderer **rejects SVGs
@@ -68,5 +69,6 @@ against `origin/develop`. Archetype-specific traps live in the archetype skills.
 - Naming: `tool_<vendor>`, `llm_<vendor>`, `embedding_<modality>`, `db_<engine>`, otherwise
   descriptive snake_case.
 - The engine discovers nodes by scanning `services*.json` — **there is no central registry to
-  edit**; a new-node PR should touch nothing outside the node dir, `nodes/test/`, `examples/`,
-  and `docs/`.
+  edit**. A new-node PR should default to the node dir, `nodes/test/`, and `examples/`.
+  Shared-code edits are an explicit blast-radius decision: list them, justify with current
+  merged precedent, test the shared behavior, and phase them separately.

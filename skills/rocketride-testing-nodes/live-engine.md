@@ -3,7 +3,23 @@
 The most realistic layer — the node running inside a real engine, on the canvas. Needs the user
 in the loop.
 
-## How the engine finds nodes (the trap)
+## Preferred local prototype path
+
+When the installed engine supports it, use workspace-local nodes instead of copying into the
+downloaded bundle:
+
+1. Develop the node under a repo-local `local_nodes/<node_name>/` package.
+2. In the service file, set `path` to `local_nodes.<node_name>`.
+3. Start the engine with `--node_path=/path/to/dir-containing-local_nodes`.
+4. Restart the engine after manifest/code changes so it rescans.
+5. When ready to ship, move the package to `nodes/src/nodes/<node_name>/` and change `path` to
+   `nodes.<node_name>`.
+
+This is the cleanest prototype loop from the `--node_path` / `local_nodes` support. Use the
+bundle-copy path below only when the user's engine cannot be launched with `--node_path` or when
+you are validating the packaged installed-app behavior.
+
+## How the bundled engine finds nodes (the trap)
 
 The IDE's Local engine typically runs from the **downloaded bundle** at
 `~/Library/Application Support/RocketRide/engine/` and loads **its own bundled `nodes/`**, not

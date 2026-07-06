@@ -15,7 +15,7 @@
   "ground_truth": {
     "exists_on_develop": false,
     "required_ops": {
-      "experimental in capabilities": ["experimental"],
+      "capabilities rationale": ["capabilities", "capability"],
       "prefix uniqueness grepped": ["prefix"],
       "lanes declared": ["lanes", "tags"],
       "secure api key field": ["secure", "apikeywidget"]
@@ -23,7 +23,7 @@
   },
   "rubric": [
     "mockup_complete: draft services.json decisions table per mockup-template (classType/prefix/profiles/fields)",
-    "experimental_rule: capabilities includes experimental (v0.2 rule), stated at Gate B not changed silently later",
+    "capabilities_rule: capabilities are stated with a current-precedent rationale, not a reflexive experimental rule",
     "blast_radius: self-contained claim with file list",
     "phases: 1-2 phase plan, per-phase audits; if B and C combined, the combination is ANNOUNCED",
     "gate_stop: ends awaiting approval, no code"

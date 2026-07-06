@@ -10,7 +10,7 @@ The file is JSONC — keep the explanatory comment blocks from the reference nod
 | `title` | Display name in the catalog |
 | `protocol` | `<node_name>://` |
 | `classType` | What it is: `["tool"]`, `["llm"]`, `["database","tool"]` (dual nodes list both) |
-| `capabilities` | **Every new node includes `"experimental"`** (pr-template rule — applies to all archetypes, not just tools). Tool nodes: `["invoke", "experimental"]`; processors add runtime needs (e.g. `"gpu"`) or ship `["experimental"]` alone. Older nodes without it (`reducto` `[]`, `llamaparse` `["gpu"]`) predate the rule — don't copy the omission. Decide the final value at Gate B and keep it; changing it mid-build without resurfacing is a silent spec change |
+| `capabilities` | Choose from current reference nodes and explain at Gate B. Tool nodes normally include `"invoke"`; media/model nodes may include `"gpu"`; unstable/high-risk nodes may include `"experimental"`. Do not assume every new node must be experimental: recent merged nodes use mixed capability sets. Decide the final value at Gate B and keep it; changing it mid-build without resurfacing is a silent spec change |
 | `register` | `"filter"` for nearly all nodes; `"endpoint"` for sources |
 | `node` | `"python"` |
 | `path` | `"nodes.<node_name>"` |
@@ -22,7 +22,7 @@ The file is JSONC — keep the explanatory comment blocks from the reference nod
 | `preconfig` | Preset profiles; `preconfig.default` names the profile applied on canvas drop |
 | `fields` | Config schema (RJSF) |
 | `shape` | Side-panel layout: list `"type"` + your field keys under a `"Pipe"` section |
-| `test` | Test-framework block (see `rocketride-testing-nodes`) |
+| `test` | Service-test block when the framework can drive the node; may include `fulltest`, `requiresLibs`, `avoidMocks`, profiles, controls, chain, outputs, timeout, and cases (see `rocketride-testing-nodes`) |
 
 ## fields
 

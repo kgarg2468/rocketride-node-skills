@@ -1,0 +1,23 @@
+{
+  "id": "s14-db-arango",
+  "tier": 1,
+  "prompt": "build a database node for ArangoDB",
+  "vendor": "ArangoDB",
+  "why": "Non-SQL DB coverage: current develop has db_arango as a database/tool node. The skills must not force SQL DatabaseGlobalBase or the hosted-flavor rule onto ArangoDB.",
+  "ground_truth": {
+    "exists_on_develop": true,
+    "existing_node": "db_arango",
+    "expected_archetype": "custom database/tool node, not SQL DatabaseGlobalBase",
+    "required_ops": {
+      "existing db_arango found": ["dbarango", "alreadyexists", "alreadyships"],
+      "database tool classType": ["databasetool", "databaseandtool", "dualclasstype"],
+      "not SQL base": ["notsql", "nosql", "notdatabaseglobalbase", "custom"]
+    }
+  },
+  "rubric": [
+    "found_existing: surfaces db_arango as already shipping on develop",
+    "non_sql: explicitly avoids forcing DatabaseGlobalBase/SQLAlchemy hosted-flavor logic",
+    "archetype: database/tool with custom query/client safety story",
+    "hard_stop + zero files written"
+  ]
+}

@@ -17,13 +17,14 @@
     "required_ops": {
       "gate combination announced (if combined)": ["combin", "covers gate c", "coversgatec", "b and c", "bandc"],
       "profiles per model": ["profile"],
-      "experimental": ["experimental"]
+      "capabilities rationale": ["capabilities", "capability"]
     }
   },
   "rubric": [
     "flavor_decision: profile-of-llm_openai_api vs new-node decision carried from Gate A into the mockup",
     "gate_merge_announced: if one approval covers B+C, it says so explicitly (never silent)",
     "profiles: one preconfig profile per model tier (llm_openai pattern)",
+    "capabilities: stated with current-precedent rationale, not a blanket experimental rule",
     "gate_stop: ends awaiting approval, no code"
   ]
 }

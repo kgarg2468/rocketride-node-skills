@@ -7,21 +7,26 @@ discovers nodes by scanning for `services*.json` — **there is no central regis
 nodes/src/nodes/<node_name>/
 ├── __init__.py        # license header + `from .IGlobal import IGlobal` /
 │                      #   `from .IInstance import IInstance` + __all__; a depends(requirements.txt)
-│                      #   bootstrap ONLY if the node has runtime deps to auto-install (~10 of 90
-│                      #   nodes do — db_*, tool_firecrawl; tool_v0/tool_tavily don't). Match your
+│                      #   bootstrap ONLY if the node has runtime deps to auto-install. Match your
 │                      #   reference node.
 ├── IGlobal.py         # per-pipeline-run state: config read, validation, client/driver setup
 ├── IInstance.py       # per-instance logic: @tool_function methods OR lane write handlers
 ├── IEndpoint.py       # SOURCE NODES ONLY: the external listener (webhook/chat class)
 ├── services.json      # node manifest: metadata, config schema, UI shape, test block
-├── requirements.txt   # per-node deps; ship one even if stdlib-only (with a comment)
+├── requirements.txt   # only when the node has node-local deps / depends() bootstrap
 ├── <name>.svg         # co-located icon, referenced by filename in services.json
 ├── <helper>.py        # real logic module (detector.py, n8n_client.py) — keep IInstance thin
-└── README.md          # optional but expected for nonobvious auth/transport decisions
+└── README.md          # canonical node docs page; include generated marker blocks
 
-nodes/test/test_<node_name>.py      # network-free pytest (see rocketride-testing-nodes)
+nodes/test/test_<node>.py           # simple network-free pytest
+nodes/test/<node_name>/...          # nested layout for multi-service packages
 examples/<name>.pipe                # optional example pipeline
 ```
+
+Multi-service packages can keep shared code at the node root with one manifest per catalog
+entry, e.g. `services.extract.json`, `services.parse.json`, nested helper/readme folders, and
+nested tests under `nodes/test/<node_name>/<service>/`. Copy the shape from the closest current
+reference instead of forcing everything into one flat file.
 
 ## Rules
 
@@ -32,8 +37,8 @@ examples/<name>.pipe                # optional example pipeline
   field names).
 - **Helper-module pattern:** put real logic (HTTP clients, algorithms) in a sibling module so
   `IInstance` is a thin adapter, unit-testable without the engine.
-- **Write order:** services.json → IGlobal → IInstance → helpers → tests. The manifest forces
-  the design decisions; code follows it.
+- **Write order:** services.json -> README markers -> IGlobal -> IInstance -> helpers -> tests.
+  The manifest and docs force the design decisions; code follows them.
 - A hosted *flavor* of an existing engine (e.g. Supabase over Postgres) is a
   `services.<flavor>.json` + `<flavor>.svg` **in the existing node's directory** — see
   `db_postgres/services.supabase.json` on origin/develop. Multi-variant sources do the same

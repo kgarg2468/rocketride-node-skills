@@ -19,8 +19,9 @@ What agents call on demand. No data flows *through* them — `lanes: {}`.
 
 ## services.json distinctives
 
-`"classType": ["tool"]` · `"capabilities": ["invoke", "experimental"]` · `"lanes": {}` ·
-`"register": "filter"` · `"node": "python"` · `"path": "nodes.<node_name>"`
+`"classType": ["tool"]` · `"capabilities"` includes `"invoke"` (add `"experimental"` only when
+approved by Gate B/current precedent) · `"lanes": {}` · `"register": "filter"` ·
+`"node": "python"` · `"path": "nodes.<node_name>"`
 
 ## Contracts
 

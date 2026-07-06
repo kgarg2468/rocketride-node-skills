@@ -37,9 +37,11 @@ costs nothing; an unapproved one wastes the build and the review.
    > rework. Confirm with the user, even when you are sure.
    Then load the matching archetype skill via `archetype-map.md`.
 3. **Mockup + blast radius** — REQUIRED SUB-SKILL: `rocketride-planning-nodes`. Anything needed
-   outside `nodes/src/nodes/<name>/`, `nodes/test/`, `examples/`, `docs/` is a blast-radius flag.
-   Changes to `packages/` (core) become a **written suggestion for the user — never edit core
-   unilaterally**.
+   outside `nodes/src/nodes/<name>/`, `nodes/test/`, and `examples/` is a blast-radius flag.
+   Co-located node `README.md` is part of the node package; `doc.md` is legacy/supplementary,
+   not required. Changes to `packages/` or other shared code require an explicit Gate B/C
+   blast-radius section with PR evidence, tests, and a separate phase. They may be legitimate
+   (recent nodes have needed reviewed shared helpers), but never do them silently.
 4. **GATE B — user approves the mockup + blast radius.**
 5. **Phased plan** — phases sized to complexity (provider clone: 1–2; agent node: 5+). Every
    phase ends with the per-phase e2e audit, not just "tests pass".
@@ -64,8 +66,8 @@ costs nothing; an unapproved one wastes the build and the review.
 | "The question was dismissed / nobody answered, so I'll proceed with defaults" | Dismissed = unanswered = STOP. Present the gate brief as your final message and end your turn |
 | "The local clone is fine, no need to fetch" | The source guide for this skill was written on a clone 18 commits stale; develop moves fast |
 | "I'll add tests at the end" | Tests are written inside each build phase, never after |
-| "Tick the `./builder test` checkbox, pytest passed" | Only tick what you actually ran; state plainly what you did not run |
-| "Small fix needed in `packages/ai`, I'll just do it" | Core changes are written suggestions for the user, always |
+| "Tick the `./builder nodes:test` checkbox, pytest passed" | Only tick what you actually ran; state plainly what you did not run |
+| "Small fix needed in `packages/ai`, I'll just do it" | Core/shared changes need an explicit blast-radius gate, PR evidence, tests, and a separate phase |
 | "The PR prose can describe the design" | Describe the merged code, not intentions — #509's body describes a class that no longer exists |
 
 ## Supporting files
@@ -73,3 +75,4 @@ costs nothing; an unapproved one wastes the build and the review.
 - `repo-setup.md` — locate/clone the checkout, staleness protocol, branching
 - `archetype-map.md` — integration type → archetype → skill dispatch table
 - `gotchas.md` — cross-cutting traps every phase must respect
+- `node-ops-spec.md` — future watcher spec only; do not implement during normal node builds

@@ -28,12 +28,16 @@ Only enter after the final massive e2e passes. First action: **ask the user whic
 4. **Push** — check `git remote -v`: most contributors lack org write access (push will 403).
    Push to the user's fork (`gh repo fork --remote` if absent) and open a cross-repo PR.
 5. **PR** — base `develop` (NOT main). Title = the commit subject. Body = `pr-template.md`.
-   **Honest checkboxes**: only tick `./builder test` if you ran it **and it passed**; otherwise
-   leave unticked with a one-liner saying exactly what happened (not run / ran-but-failed-at-
-   toolchain / etc.).
+   **Honest checkboxes**: only tick `./builder nodes:test`, `./builder nodes:test-full`, or
+   `./builder nodes:test-contracts` if you ran that exact command **and** it passed; otherwise
+   leave unticked with a one-liner saying exactly what happened (not run / ran-but-failed / etc.).
 6. **CI** — see `ci-and-hooks.md`. After opening, check the first run; for mode 1 start a
    `/loop` (hourly) watching checks + review comments (CodeRabbit + maintainers), addressing
    feedback by tightening the pattern.
+7. **After merge/docs deploy** — verify the public docs and LLM surface when applicable:
+   `https://docs.rocketride.org/llms.txt` lists the node, and
+   `https://docs.rocketride.org/nodes/<node>.md` renders the README with generated schema.
+   If not yet deployed, record it as pending instead of claiming public docs are live.
 
 ## Red flags
 

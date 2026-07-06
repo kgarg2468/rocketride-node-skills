@@ -1,0 +1,31 @@
+{
+  "id": "s15-docs-translation-tool-planning",
+  "tier": 2,
+  "prompt": "plan a LibreTranslate tool node; use the existing DeepL tool node as the closest RocketRide reference",
+  "turns": [
+    "plan a LibreTranslate tool node; use the existing DeepL tool node as the closest RocketRide reference",
+    "go with your recommendation"
+  ],
+  "expect": [
+    "[Gg]ate A",
+    "[Gg]ate B|mockup|README|docs"
+  ],
+  "vendor": "LibreTranslate",
+  "why": "Docs-integration pressure case: the agent should read the live docs index and the public tool_deepl node page as reference, then make README docs a Gate B deliverable instead of only planning services.json/code.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "tool node, closest public reference tool_deepl",
+    "required_ops": {
+      "live docs index": ["llmstxt", "docsrocketrideorgllmstxt"],
+      "public reference node page": ["tooldeeplmd", "nodes/tooldeepl", "publicdocs"],
+      "README deliverable": ["readme", "generatedparams", "rocketridegeneratedparams"],
+      "required sections": ["whatitdoes", "setup", "limits", "upstreamdocs"]
+    }
+  },
+  "rubric": [
+    "research_docs: Gate A cites live docs source or explicitly marks public docs unverified",
+    "reference_node: uses tool_deepl as the public/reference docs shape without trying to rebuild DeepL",
+    "gate_b_docs: README docs page with generated markers is included in the mockup deliverable",
+    "hard_stop + zero files written"
+  ]
+}
