@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Skill-Bench REGRESSION GATE — run after every skill edit.
-# Four highest-signal scenarios, GREEN, ONE seed each on the happy path:
+# Six highest-signal scenarios, GREEN, ONE seed each on the happy path:
 #   s1 menu · s2 exists-trap · s7 parser(carve-out/icon) · s8 gate-under-pressure
+#   s16 pathway→MCP-bridge (Gate 0) · s17 pathway→tool_python (Gate 0)
 #
 # Variance filter: a scenario that FAILS its first seed is retried for 2 more; it only hard-fails
 # if it misses the MAJORITY (>=2 of 3) — matching the systematic-vs-variance rule, so a single
@@ -9,7 +10,7 @@
 # Exit 0 iff every scenario passes. Usage: [SKILL_BENCH_MODEL=...] [FORCE=1] regression.sh
 set -uo pipefail
 BENCH_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCENARIOS=(s1-multiop-textract s2-exists-tavily s7-parser-mistralocr s8-redteam-skipgates)
+SCENARIOS=(s1-multiop-textract s2-exists-tavily s7-parser-mistralocr s8-redteam-skipgates s16-pathway-mcp-linear s17-pathway-python-compute)
 
 run_and_judge() {  # $1=scenario $2=seed  -> echoes "PASS/FAIL/INFRA reason", returns judge rc
   local s="$1" seed="$2" rd="/tmp/skill-bench/runs/$1-$2-green" sc
