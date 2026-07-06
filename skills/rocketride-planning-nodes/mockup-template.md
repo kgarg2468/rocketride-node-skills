@@ -8,6 +8,10 @@ Present this to the user before any code exists. Keep it short enough to read in
 ## What it is
 <1-3 sentences: archetype, what it does in a pipeline, which users/use-cases>
 
+## Design decisions (chosen + why)
+<the answers to the design questions (design-questions.md), each: decision -> chosen option + a
+one-line why. Note the recommended default you offered and what the user picked if different.>
+
 ## Surface
 <For tool nodes: the tool functions — name, one-line description, key inputs/outputs.
  For data-flow nodes: lanes consumed → produced, what the transform does.

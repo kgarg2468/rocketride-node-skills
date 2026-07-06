@@ -76,3 +76,5 @@ codebase` (cite the existing pattern matched), `## What changed` (file-by-file t
 - Shared-code changes (anything in `packages/`) must be called out explicitly with rationale,
   tests, and current precedent; never smuggle them into a node PR.
 - A node-local additive diff is the default goal: node dir + `nodes/test/` + `examples/`.
+- Preview the assembled title + body to the user and get approval **before** `gh pr create`;
+  incorporate any edits and re-show. The PR is public the moment it's created.

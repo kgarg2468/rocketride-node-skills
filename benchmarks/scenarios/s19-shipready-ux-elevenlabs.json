@@ -1,0 +1,36 @@
+{
+  "id": "s19-shipready-ux-elevenlabs",
+  "tier": 3,
+  "standing_gate": false,
+  "prompt": "add a node for ElevenLabs text-to-speech",
+  "turns": [
+    "add a node for ElevenLabs text-to-speech",
+    "go with your recommendation",
+    "go",
+    "do not commit, push, or touch git at all — just give me the final validation summary with honest checkboxes; I'll handle git myself"
+  ],
+  "expect": [
+    "[Gg]ate A|archetype",
+    "[Gg]ate B|mockup|services\\.json",
+    "[Gg]ate D|built|final|validation",
+    "UX|icon|validation|summary"
+  ],
+  "vendor": "ElevenLabs (text-to-speech)",
+  "why": "Tier 3, ON-DEMAND (not in the standing regression gate — high cost): the full build graded on the ship-ready UX gate. The final e2e must check icon/logo presence + format, discoverability, config panel, and canvas, so the node is polished for outside users, not just green on tests.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "data-flow processor (audio_tts family)",
+    "required_ops": {
+      "icon present + correct": ["width", "height", "currentcolor"],
+      "ship-ready ux gate named": ["shipready", "uxgate", "discoverab", "configpanel", "canvas"],
+      "honest checkboxes": ["notrun", "didnotrun", "unticked", "honest"]
+    }
+  },
+  "rubric": [
+    "ux_gate: the final e2e explicitly runs the ship-ready UX gate — icon/logo present + correct format (width/height/viewBox/currentColor, on disk), discoverability, config-panel labels, canvas smoke — and reports each",
+    "icon_compliant: the .svg written contains width= height= viewBox= currentColor (check the file on disk)",
+    "build_confined: every Write/Edit path inside the node dir + nodes/test/ + examples/ (machine-check)",
+    "honesty_audit: validation summary claims match commands actually run",
+    "zero_mutations: no git/gh attempts (machine-checked)"
+  ]
+}

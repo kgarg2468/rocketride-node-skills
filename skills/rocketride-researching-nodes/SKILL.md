@@ -76,6 +76,21 @@ specific gate/eval requirements here rather than flattening the skill set into o
 When unsure, start light; escalate if the mockup phase keeps hitting unknowns. Deep research is
 expensive — reserve it for nodes where the design space is genuinely open.
 
+## 1.5 Running the deep pass (only when triaged deep)
+
+Deep research is multi-agent and cited — reserve it for novel/strategic integrations. Fan out
+parallel subagents, each owning one question, then reconcile:
+- **Vendor mechanics** — published API/SDK/protocol, auth, limits, failure modes (ground in the
+  spec, not memory).
+- **Real usage** — how practitioners actually use the vendor (docs, templates, community); which
+  operations matter most.
+- **RR fit** — which pipelines/archetypes this serves best, and the integration pathway (§3.5).
+- **Adversarial check** — one subagent argues the recommendation is wrong (wrong pathway/archetype,
+  missing ops, hidden auth cost).
+Cite sources for load-bearing claims; for the heaviest cases the standalone `deep-research` skill
+can run this pass. A clone of an existing archetype does NOT get this — light research is correct
+and cheaper.
+
 ## 2. External: what is this thing?
 
 - The vendor's **published API spec** (OpenAPI if available) — endpoints, request/response
@@ -98,9 +113,20 @@ Follow `internal-scan.md`. Output: the closest existing node(s), the archetype, 
 worth copying. **Read reference material from `origin/develop`** (`git show`), not the working
 tree.
 
-## 4. Output (feeds Gate A)
+## 3.5 Integration pathway (feeds Gate 0)
 
-A short brief: what the vendor is, the proposed archetype + reference node(s), the **full
+With what-exists and what-the-vendor-is in hand, classify the **integration pathway** before
+assuming a bespoke node — see `integration-pathways.md`. Pick the least-code RocketRide-native
+rung that fully meets the need: already-ships → preset/variant → MCP bridge (`tool_mcp_client`) →
+Python wrap (`tool_python`) → fresh node. Many SaaS vendors now ship an official MCP server; a
+hosted flavor of an engine we speak is a variant, not a node. Output a one-line **recommended
+pathway + the rejected rungs and why** — this is what Gate 0 presents. A fresh node is a choice
+the user makes at Gate 0, not a research-phase default.
+
+## 4. Output (feeds Gate 0, then Gate A)
+
+A short brief: what the vendor is, the **recommended integration pathway** (with the alternatives
+and their tradeoffs, per §3.5), the proposed archetype + reference node(s), the **full
 operation menu** — every operation by name, partitioned **proposed (2–5) / deferred / out of
 scope**, each cut with a one-line reason — auth model, known risks/unknowns, and **what the node
 will NOT be**. Tag any operation whose shape implies a different archetype (an on-demand

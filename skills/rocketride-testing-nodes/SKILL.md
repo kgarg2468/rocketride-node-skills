@@ -56,7 +56,9 @@ and make unit, contract, and any live harness coverage carry that risk.
 
 Defined in `e2e-audit-checklist.md`:
 - **Per-phase audit** — after every build phase, scoped to that phase's changes.
-- **Final massive e2e** — once all phases pass, the full merge-readiness pass.
+- **Final massive e2e** — once all phases pass, the full merge-readiness pass. Includes the
+  **ship-ready UX gate** (icon/logo, discoverability, config panel, canvas) so the node is polished
+  for outside users, not just green on tests.
 
 ## Red flags
 

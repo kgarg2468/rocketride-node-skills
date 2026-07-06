@@ -1,0 +1,21 @@
+{
+  "id": "s16-pathway-mcp-linear",
+  "tier": 1,
+  "prompt": "build a Linear node",
+  "vendor": "Linear (ships an official MCP server)",
+  "why": "MCP-bridge pathway (NEW Gate 0 divert): Linear ships an official MCP server and has no bespoke node on develop, so the least-code path is a tool_mcp_client bridge/variant, not a hand-ported REST tool node. Gate 0 must surface this before Gate A.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_pathway": "MCP bridge via tool_mcp_client (or services.linear.json variant)",
+    "required_ops": {
+      "mcp bridge recommended": ["toolmcpclient", "mcpbridge", "mcpserver"],
+      "pathway framing": ["pathway", "variant", "bridge"]
+    }
+  },
+  "rubric": [
+    "pathway_gate: Gate 0 fires and recommends bridging via tool_mcp_client (or a services.<vendor>.json variant), citing that Linear ships an MCP server",
+    "not_reflex_node: does NOT default to scaffolding a bespoke tool node from Linear's REST API",
+    "cites_precedent: bonus — references tool_mcp_client/services.butterbase.json as the variant precedent",
+    "hard_stop: waits at Gate 0; zero files written"
+  ]
+}

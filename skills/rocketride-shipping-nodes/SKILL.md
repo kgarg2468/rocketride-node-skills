@@ -27,10 +27,14 @@ Only enter after the final massive e2e passes. First action: **ask the user whic
    `--no-verify`, say so in the PR and confirm ruff/gitleaks were run manually.
 4. **Push** — check `git remote -v`: most contributors lack org write access (push will 403).
    Push to the user's fork (`gh repo fork --remote` if absent) and open a cross-repo PR.
-5. **PR** — base `develop` (NOT main). Title = the commit subject. Body = `pr-template.md`.
-   **Honest checkboxes**: only tick `./builder nodes:test`, `./builder nodes:test-full`, or
-   `./builder nodes:test-contracts` if you ran that exact command **and** it passed; otherwise
-   leave unticked with a one-liner saying exactly what happened (not run / ran-but-failed / etc.).
+5. **PR — draft, preview, approve, then create.** Assemble the PR: base `develop` (NOT main),
+   title = the commit subject, body = `pr-template.md`. **Honest checkboxes**: only tick
+   `./builder nodes:test`, `./builder nodes:test-full`, or `./builder nodes:test-contracts` if you
+   ran that exact command **and** it passed; otherwise leave unticked with a one-liner saying
+   exactly what happened (not run / ran-but-failed / etc.). Then **show the full title + body to the
+   user as a preview and wait for approval** — a dismissed or unanswered dialog is a STOP, not
+   consent. Incorporate any requested edits and re-show. Only after the user approves do you run
+   `gh pr create` (through the user's fork); use `--draft` when the user chose mode 3.
 6. **CI** — see `ci-and-hooks.md`. After opening, check the first run; for mode 1 start a
    `/loop` (hourly) watching checks + review comments (CodeRabbit + maintainers), addressing
    feedback by tightening the pattern.
@@ -47,6 +51,7 @@ Only enter after the final massive e2e passes. First action: **ask the user whic
 | "Push to origin directly" | 403 for most; fork workflow is the norm |
 | "Tick all the boxes, it's basically tested" | Unticked + honest note beats a false claim — reviewers diff your claims against CI |
 | "Describe what I meant to build" | Describe what the diff contains |
+| "Approved the build, so I can open the PR" | The PR title + body are their own approval: preview them and wait before `gh pr create` |
 
 ## Supporting files
 

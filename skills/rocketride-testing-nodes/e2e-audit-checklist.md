@@ -57,6 +57,19 @@ when all phases are done, and is the merge-readiness bar.
       the **actual output payload** was seen (non-empty, expected shape), never on green
       lifecycle rows alone
 
+**Ship-ready UX gate (outside-user polish — a real user will see this):**
+- [ ] Icon/logo present and referenced by filename in services.json; renders in the Add-Node
+      palette and on the canvas, not the chain-link fallback (format rules in the Static icon check)
+- [ ] Discoverable: the node appears in Add-Node search under its intended displayName + category;
+      name/prefix is a real identifier, not a placeholder
+- [ ] Config panel renders cleanly: every field has a human label + help text, secrets show the
+      ApiKeyWidget, no `TODO`/`lorem`/leftover placeholder copy
+- [ ] Display metadata reads like other shipped nodes: displayName, description, and category are
+      user-facing prose, not the vendor's raw slug
+- [ ] Canvas smoke: wire a minimal pipe (e.g. Chat -> node -> Response), fill config, run — the node
+      shows its icon, connects on the intended lanes, and returns a real payload
+- [ ] README/example gives an outside user a working first pipeline
+
 **Review:**
 - [ ] Self code review of `git diff origin/develop...` (after `git add -N` so new files show)
       — read it as a hostile reviewer: error semantics, input guards, secrets, dead code,

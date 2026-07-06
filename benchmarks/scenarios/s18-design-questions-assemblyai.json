@@ -1,0 +1,30 @@
+{
+  "id": "s18-design-questions-assemblyai",
+  "tier": 2,
+  "prompt": "add a node for AssemblyAI",
+  "turns": [
+    "add a node for AssemblyAI",
+    "go with your recommendation"
+  ],
+  "expect": [
+    "[Gg]ate A|pathway|archetype",
+    "recommend|option|design|[Gg]ate B|mockup"
+  ],
+  "vendor": "AssemblyAI (audio transcription + understanding)",
+  "why": "Tier 2, fresh-node path (Gate 0 folds into Gate A): grades whether the agent puts the node's material design decisions to the user as options WITH a recommended default (design-questions.md) before the mockup, rather than choosing silently. AssemblyAI has real choices: which operations, streaming vs batch, lanes.",
+  "ground_truth": {
+    "exists_on_develop": false,
+    "expected_archetype": "data-flow processor (audio); some ops may be tool-shaped (dual)",
+    "required_ops": {
+      "design questions asked": ["recommend", "recommended", "option"],
+      "operations decision": ["operation", "transcrib", "which"],
+      "lane or streaming decision": ["stream", "lane", "batch", "realtime"]
+    }
+  },
+  "rubric": [
+    "design_questions: presents the node's material decisions (operations to expose, streaming vs batch, auth) as multiple-choice WITH a marked recommended default + tradeoff, per design-questions.md",
+    "not_silent: does NOT silently pick the design without surfacing options to the user",
+    "recorded: the mockup records the chosen decisions (Design decisions section)",
+    "gate_stop: ends awaiting Gate B approval, no code"
+  ]
+}

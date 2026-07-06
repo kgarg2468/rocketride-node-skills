@@ -29,23 +29,26 @@ and stop. Do not produce a Gate B mockup just because the user used the word "pl
    `docs/README-node-schema.md` in the checkout.
 3. **Ground the vendor surface in the real API spec** (their OpenAPI/docs), not memory — #557
    verified every endpoint against Vercel's published `openapi.json`.
-4. **Write the mockup artifact** using `mockup-template.md`: draft services.json, required
-   README plan with generated marker blocks, tool/lane surface, exact file list, blast radius,
-   phase breakdown. The README is a Gate B deliverable because it renders into the public docs
-   and LLM docs surface.
-5. **Blast radius rule:** files outside `nodes/src/nodes/<name>/`, `nodes/test/`, and
+4. **Ask the design questions** (`design-questions.md`) — walk the user through the node's material
+   decisions as multiple-choice with a recommended default, skipping anything the reference clone
+   already settles. Record the answers; they go in the mockup and are approved at Gate B.
+5. **Write the mockup artifact** using `mockup-template.md`: draft services.json, recorded design
+   decisions, required README plan with generated marker blocks, tool/lane surface, exact file list,
+   blast radius, phase breakdown. The README is a Gate B deliverable because it renders into the
+   public docs and LLM docs surface.
+6. **Blast radius rule:** files outside `nodes/src/nodes/<name>/`, `nodes/test/`, and
    `examples/` are flags. Anything in `packages/` or other shared code needs a written Gate B/C
    section with rationale, current PR precedent, extra tests, and a separate phase. (Precedent:
    some merged nodes deliberately added shared helpers; that was maintainer-reviewed, not a
    default.)
-6. **Phase the build.** Size to complexity: provider clone 1–2 phases; multi-feature tool 2–4;
+7. **Phase the build.** Size to complexity: provider clone 1–2 phases; multi-feature tool 2–4;
    agent node 5+. Each phase = a coherent feature slice with its tests, ending in the per-phase
    e2e audit (`rocketride-testing-nodes`). Phase 1 is always: scaffold + services.json +
    minimal happy path + contract tests passing.
 
 ## Output
 
-The mockup artifact (step 4) is what the user approves at Gate B; the phase list is what they
+The mockup artifact (step 5) is what the user approves at Gate B; the phase list is what they
 approve at Gate C. The Gate B artifact must include a docs-evidence line with the exact public
 docs URLs read, or say `public docs unverified`. Don't start coding before both.
 
@@ -54,4 +57,5 @@ docs URLs read, or say `public docs unverified`. Don't start coding before both.
 - `node-anatomy.md` — directory layout, naming, license headers, helper-module pattern
 - `docs-page.md` — node README generated markers, docs migration notes, `doc.md` legacy status
 - `services-json.md` — condensed key reference + variant-file pattern
+- `design-questions.md` — the archetype design decisions to put to the user (options + recommended)
 - `mockup-template.md` — the Gate B artifact format

@@ -1,0 +1,20 @@
+{
+  "id": "s17-pathway-python-compute",
+  "tier": 1,
+  "prompt": "I want to add a node so my agent can run arbitrary Python snippets to do math and reshape JSON mid-pipeline",
+  "vendor": "agent-controlled compute (tool_python territory)",
+  "why": "Python-wrap pathway (Gate 0 divert): agent-controlled Python compute already maps to the existing tool_python (python.execute, restricted sandbox). The exists-check + Gate 0 should recommend tool_python, note the whitelist / no-subprocess limit, and NOT scaffold a new node.",
+  "ground_truth": {
+    "exists_on_develop": "as tool_python",
+    "expected_pathway": "existing tool_python (python.execute)",
+    "required_ops": {
+      "tool_python surfaced": ["toolpython", "pythonexecute"],
+      "sandbox limit noted": ["sandbox", "whitelist", "restricted"]
+    }
+  },
+  "rubric": [
+    "pathway_gate: recognizes agent-controlled Python compute maps to the existing tool_python (python.execute) and recommends it rather than a new node",
+    "honest_limit: notes the sandbox whitelist / no-subprocess constraint (third-party SDKs or CLI binaries would NOT fit)",
+    "hard_stop: waits; zero files written"
+  ]
+}

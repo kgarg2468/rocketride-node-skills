@@ -4,6 +4,11 @@ Map the integration to an archetype, then load that archetype's skill BEFORE sca
 Counts drift quickly as `origin/develop` moves. Census at research time and trust the rules here,
 not any fixed count in this table.
 
+This table is **Gate A** (which archetype). It runs only after **Gate 0 (pathway)** decides a fresh
+node is the right move at all — see `integration-pathways.md` in `rocketride-researching-nodes`. If
+the vendor ships an MCP server or speaks an engine we already implement, the answer may be a
+`tool_mcp_client` bridge/variant or a `services.<flavor>.json`, not a row below.
+
 | Archetype | Count | Skill | Primary reference node(s) | Tell-tale signals |
 |---|---|---|---|---|
 | Tool (agent-invocable) | 13 | `rocketride-tool-nodes` | `tool_v0`, `tool_tavily`, `tool_python` | "agent can call it"; vendor HTTP API wrapped as on-demand functions; no data flowing *through* it |
@@ -32,6 +37,9 @@ not any fixed count in this table.
   OpenAI-compatible LLM API -> `llm_openai_api` profile), whether or not this table names them.
   A database with a different query model/protocol (for example ArangoDB) is not forced into the
   SQL base; classify it as a custom database/tool node and load the database skill.
+- A vendor whose value is an **MCP server** it already ships → bridge via `tool_mcp_client` (or a
+  `services.<vendor>.json` variant of it), not a hand-ported tool node. That's a Gate 0 pathway
+  decision (`integration-pathways.md`), made before this table.
 - TTS/transcription → processor with audio lanes (model on `audio_transcribe` / `audio_tts`).
 - A framework/library (LlamaIndex, LangChain) rather than a hosted API: scope question — raise it
   at Gate A; precedent is `agent_langchain` / `preprocessor_langchain`.
