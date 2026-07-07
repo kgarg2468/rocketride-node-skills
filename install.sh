@@ -27,3 +27,4 @@ if [ "$installed" -eq 0 ]; then
 fi
 
 echo "Done ($installed links). Update later with: git -C $REPO_DIR pull"
+echo "→ Start a NEW Claude Code session to load these skills (they're read at session start)."

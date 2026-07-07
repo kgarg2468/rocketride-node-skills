@@ -7,13 +7,24 @@ confirmation → mockup → phased build with deep e2e testing → final massive
 
 ## Install
 
+One line — clone into the canonical location and link the skills:
+
 ```bash
-git clone git@github.com:kgarg2468/rocketride-node-skills.git
-cd rocketride-node-skills && ./install.sh
+git clone git@github.com:kgarg2468/rocketride-node-skills.git ~/rocketride-node-skills && bash ~/rocketride-node-skills/install.sh
 ```
 
-`install.sh` symlinks each skill into `~/.claude/skills/` (and `~/.agents/skills/` if present),
-so updating is just `git pull`.
+Already cloned, or want the latest? This variant is safe to re-run:
+
+```bash
+git clone git@github.com:kgarg2468/rocketride-node-skills.git ~/rocketride-node-skills 2>/dev/null; git -C ~/rocketride-node-skills pull --ff-only; bash ~/rocketride-node-skills/install.sh
+```
+
+`install.sh` symlinks each skill into `~/.claude/skills/` (and `~/.agents/skills/` if present), so
+updating later is just `git -C ~/rocketride-node-skills pull`. Requires SSH access to the repo (or
+swap in `gh repo clone kgarg2468/rocketride-node-skills ~/rocketride-node-skills`).
+
+> **After installing, start a fresh Claude Code session** — skills are read at session start, so a
+> window you already had open won't see the new/updated skills until you reopen it.
 
 ## Quickstart
 
@@ -22,9 +33,11 @@ In any Claude Code session:
 > build a tool_deepl node
 
 The master skill (`rocketride-building-nodes`) picks it up, locates your rocketride-server
-checkout, researches the integration, **confirms the archetype with you before writing any code**,
-and walks the build through per-phase e2e audits to a conventions-compliant PR. At the end it
-asks how far to take it (full close-out with CI monitoring / PR only / draft / local branch).
+checkout, researches the integration, and **first checks the best integration pathway** (a fresh
+node vs. an existing-engine variant, an MCP bridge, or a `tool_python` wrap) before **confirming the
+archetype with you — no code until you approve the plan**. It then walks the build through per-phase
+e2e audits and a ship-ready UX gate to a conventions-compliant PR, and at the end asks how far to
+take it (full close-out with CI monitoring / PR only / draft / local branch).
 
 ## Skill map
 
