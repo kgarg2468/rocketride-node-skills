@@ -5,7 +5,7 @@ description: Use when asked to build, create, add, or port a node or integration
 
 # Building RocketRide Nodes
 
-Master workflow: a node name in, a shipped, conventions-compliant node out. Follow the phases in
+Master workflow: a node name in, a verified, conventions-compliant node out. Follow the phases in
 order. The gates are **hard stops** — present to the user and wait. Gate 0 fires only when the
 integration shouldn't be a fresh node; Gates A–D always fire.
 
@@ -64,9 +64,10 @@ costs nothing; an unapproved one wastes the build and the review.
 9. **Final massive e2e** — the full checklist in `rocketride-testing-nodes`
    (e2e-audit-checklist.md), including the **ship-ready UX gate** (icon/logo, canvas display),
    plus a self code review of the diff.
-10. **GATE D — ask the user how to close out** (multiple choice): full close-out (issue → branch →
-   PR → `/loop` CI/review monitoring), PR only, draft PR only, or local branch only. Never assume;
-   never auto-start the loop. Then REQUIRED SUB-SKILL: `rocketride-shipping-nodes`.
+10. **GATE D — local handoff by default.** Present the validation summary and any checks not run,
+   then stop. Do not ask for a shipping mode or activate shipping unless the user explicitly asks
+   to ship or close out the node, create an issue/branch/commit, push, open a PR, monitor CI, or
+   address review. When asked, use `rocketride-shipping-nodes`; never auto-start the loop.
 
 ## Red flags
 

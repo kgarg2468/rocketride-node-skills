@@ -1,12 +1,12 @@
 ---
 name: rocketride-shipping-nodes
-description: Use when a rocketride-server node is built and verified and needs an issue, branch, commits, or PR — or when deciding how far to take a finished node, monitoring its CI, or responding to review
+description: Use when the user explicitly asks to ship or close out a verified rocketride-server node, create an issue or branch, commit or push, open or merge a PR, monitor CI, or respond to review
 ---
 
 # Shipping RocketRide Nodes
 
-Only enter after the final massive e2e passes. First action: **ask the user which close-out mode**
-(multiple choice) — never assume:
+Only enter after an explicit shipping/review request and the final massive e2e passes. If the
+request does not select a mode, ask which close-out mode (multiple choice) — never assume:
 
 1. **Full close-out** — issue → branch → commit → push to fork → PR → `/loop` monitoring CI +
    review comments (hourly) until mergeable

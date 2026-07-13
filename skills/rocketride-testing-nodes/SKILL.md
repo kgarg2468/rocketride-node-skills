@@ -52,6 +52,22 @@ drive them yet (binary/parser-only cases, database services without useful mocks
 model nodes). Treat omissions as an explicit decision: document why the service block is omitted
 and make unit, contract, and any live harness coverage carry that risk.
 
+## Trigger-to-test map
+
+Use the risk/effect map from `rocketride-planning-nodes/mockup-template.md` to select rows.
+
+| Trigger | Test proof |
+|---|---|
+| State refresh or commit | Normal success; repeated call after partial/incomplete state; commit only after meaningful success |
+| External success response | Complete, missing-meaningful-field, and malformed-meaningful-field responses |
+| Config aliases | Canonical, supported alternate, conflicting, and invalid forms |
+| Retryable vs permanent failure | Retryable failure then success; permanent failure without retry; no duplicate committed side effect |
+| Cursor/continuation | Continue within the original query, filter, tenant, and page scope |
+| Protected outcome | Exercise every mutation route; denied paths make zero vendor calls and persist zero mutation |
+| Exact user content | Preserve authored content exactly; normalize only permitted identifiers |
+| Collection semantics | Cover absent, empty, and nonempty collections as distinct cases |
+| Optional dependency | Check the CI-equivalent optional-dependency path and its minimum supported version |
+
 ## The two audits
 
 Defined in `e2e-audit-checklist.md`:

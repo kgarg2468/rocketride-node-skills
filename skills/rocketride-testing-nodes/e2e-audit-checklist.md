@@ -3,6 +3,8 @@
 Two audits. The per-phase audit runs after EVERY build phase; the final massive e2e runs once,
 when all phases are done, and is the merge-readiness bar.
 
+This is an audit reference, not a shipping action: it neither requires a PR nor invokes shipping.
+
 ## Per-phase audit (scoped to this phase's changes)
 
 - [ ] `uvx ruff check` + `uvx ruff format --check` on every file touched this phase
@@ -14,6 +16,8 @@ when all phases are done, and is the merge-readiness bar.
       tool conventions / base-class obligations)
 - [ ] services.json changes still match `docs/README-node-schema.md`
 - [ ] No secrets, no real API keys, no mutation of inputs introduced
+- [ ] Evidence is recorded for every applicable risk/effect-map row; an N/A row has its concrete
+      reason and no untested route remains
 - [ ] **Scope check:** only THIS phase's planned scope was implemented — if you find yourself
       auditing features from a later phase, you collapsed phases; say so and audit them all
 - [ ] Fix-and-rerun until clean — do not start the next phase with a red audit
@@ -27,7 +31,9 @@ when all phases are done, and is the merge-readiness bar.
       `./builder nodes:test-contracts` — record the exact commands and any fallback honestly
 - [ ] License header on every `.py` file
 - [ ] `requirements.txt` present only when node-local deps or `depends()` bootstrap need it;
-      otherwise the mockup/PR explains why it is omitted
+      otherwise the mockup/validation summary explains why it is omitted
+- [ ] Optional dependencies satisfy their documented minimum supported versions and the
+      CI-equivalent optional-dependency path was checked
 - [ ] `README.md` present with generated marker blocks for the public node docs page; no
       mandatory `doc.md` unless intentionally kept as supplemental legacy docs
 - [ ] README includes the required public-docs sections from `planning-nodes/docs-page.md`
@@ -43,7 +49,8 @@ when all phases are done, and is the merge-readiness bar.
 - [ ] `prefix` uniqueness: grep the catalog
 - [ ] Lane wiring valid against the ontology in `docs/README-nodes.md`
 - [ ] services.json `test` block present when the framework can drive the node; if omitted,
-      PR states the concrete reason (binary/parser-only, DB/no useful mock, heavy model, etc.)
+      the validation summary states the concrete reason (binary/parser-only, DB/no useful mock,
+      heavy model, etc.)
 - [ ] Service tests use current schema correctly: `fulltest`, `requiresLibs`, `avoidMocks`,
       profiles/controls/chain/outputs/timeout/cases as applicable
 - [ ] Secret scan: no credentials anywhere. ⚠️ New (uncommitted) files are invisible to
@@ -69,13 +76,19 @@ when all phases are done, and is the merge-readiness bar.
 - [ ] Canvas smoke: wire a minimal pipe (e.g. Chat -> node -> Response), fill config, run — the node
       shows its icon, connects on the intended lanes, and returns a real payload
 - [ ] README/example gives an outside user a working first pipeline
+- [ ] Documentation claims about reversibility, recovery, idempotency, and destruction match
+      observed behavior; remove or qualify any claim not demonstrated
 
 **Review:**
 - [ ] Self code review of `git diff origin/develop...` (after `git add -N` so new files show)
       — read it as a hostile reviewer: error semantics, input guards, secrets, dead code,
       stale comments
+- [ ] Before Gate D, obtain a fresh-context independent review when the risk/effect map flags a
+      protected outcome, persisted state, shared-code edit, or copied-client lineage. Prefer a
+      different model family; verify each finding and record its disposition. For a simple
+      read-only node with every trigger genuinely N/A, mark this check N/A.
 - [ ] Public docs/LLM surface plan is stated for after merge: check
       `https://docs.rocketride.org/llms.txt` and `https://docs.rocketride.org/nodes/<node>.md`
       once docs deploy
 - [ ] `git status` shows ONLY intended files
-- [ ] Validation summary drafted for the PR with honest checkboxes (what ran, what didn't)
+- [ ] Validation summary records honest checkboxes (what ran, what did not)

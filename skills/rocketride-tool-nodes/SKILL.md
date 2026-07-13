@@ -45,6 +45,11 @@ approved by Gate B/current precedent) · `"lanes": {}` · `"register": "filter"`
   API errors (the tool_v0 convention — `tool_v0/IInstance.py`; tool_firecrawl instead re-raises
   vendor exceptions after retry — either way, **raise**). `{'success': False, ...}` dicts are
   the obsolete #509 style.
+- **Semantic strings:** classify each field before transforming it. Normalize identifier-like
+  values only when the contract permits; preserve user-authored exact content verbatim—do not
+  trim, strip, case-fold, or otherwise rewrite it. Define type separately from empty semantics:
+  state the accepted type, then distinguish absent, empty string, empty collection, and nonempty
+  values in both input and output behavior.
 
 ## Gotchas
 

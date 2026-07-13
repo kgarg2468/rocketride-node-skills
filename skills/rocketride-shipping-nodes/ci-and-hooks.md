@@ -1,5 +1,8 @@
 # CI and hooks — what runs and how to respond
 
+Use this reference only after the user chose a shipping mode or explicitly asked to inspect
+CI/review; it never activates PR creation.
+
 ## Local pre-commit (lefthook.yml)
 
 Sequential: `gitleaks protect --staged`, `ruff check`, `ruff format --check` (Python files).
@@ -19,11 +22,19 @@ If the tools aren't on PATH and you commit `--no-verify`: run the equivalents ma
 
 ## Reading CI correctly
 
+- By default, treat a terminal status as green only when it is `success`. `cancelled`, `timed_out`,
+  `action_required`, `stale`, and `failure` are non-green; `pending` and `queued` are unfinished.
+  Treat `skipped` or `neutral` as acceptable only for an expected, non-required path.
 - A red ❌ from a **previous** run sticks until the new run's same job completes — check the
   run id before declaring a failure stale.
 - "Pending" is not "failed". The build matrix is slow.
 - After pushing a fix, verify the **new** run picked up the right HEAD
   (`gh pr view <n> --json headRefOid`).
+- Report evidence separately: local checks, CI-equivalent checks, live-vendor checks,
+  live-engine checks, and canvas checks. Do not let one stand in for another.
+- Report the review decision, unresolved actionable-thread count, whether
+  `CHANGES_REQUESTED` remains, and which threads require reviewer resolution rather than an
+  author response.
 
 ## The /loop (full close-out mode only)
 

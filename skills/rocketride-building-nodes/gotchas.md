@@ -59,11 +59,20 @@ against `origin/develop`. Archetype-specific traps live in the archetype skills.
   the old style).
 - Defensive input guards: `isinstance(x, bool) or not isinstance(x, int)` so `true` doesn't
   silently become `1`; clamp numeric ranges (`max(1, min(50, n))`).
+- Gate **protected outcomes**, not operation names. Inventory every equivalent mutation route
+  (including aliases, bulk paths, retries, and indirect helpers); when denied, make no vendor
+  call and persist no mutation.
+- For persisted state, name the refresh source and single commit boundary so partial responses,
+  reads, previews, and retries cannot silently commit stale or incomplete state.
 
 ## Process
 
 - **Trust `origin/develop`**, not the local tree (clones go stale fast) and not PR descriptions
   (merged code differs from PR prose — #509).
+- Before adding a private validator or helper, search `origin/develop`, shared utilities, and
+  sibling nodes for the established contract. Audit copied code and any claimed-shared helper for
+  lineage and relevant dependency version floors. Choose in-scope parity, an approved shared
+  helper, or an explicit follow-up; do not widen scope to repair unrelated lineage.
 - Shared HTTP: `from ai.common.utils import post_with_retry`; tool input normalization:
   `normalize_tool_input` (both in `packages/ai/src/ai/common/utils/`).
 - Naming: `tool_<vendor>`, `llm_<vendor>`, `embedding_<modality>`, `db_<engine>`, otherwise

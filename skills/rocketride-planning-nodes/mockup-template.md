@@ -37,6 +37,18 @@ one-line why. Note the recommended default you offered and what the user picked 
 ## Reference node(s) anchored on
 <node + what is copied vs diverges>
 
+## Risk/effect map
+<Complete every row, or mark it N/A with a concrete reason.>
+
+| Risk/effect | Decision or N/A + concrete reason | Control | Verification |
+|---|---|---|---|
+| Protected outcomes and every equivalent route | ... | ... | ... |
+| Persisted state, refresh source, and commit boundary | ... | ... | ... |
+| Exact user content vs identifiers; missing/empty semantics | ... | ... | ... |
+| Continuation/cursor scope | ... | ... | ... |
+| Copied code and claimed shared-helper lineage | ... | ... | ... |
+| Reversibility, recovery, idempotency, and destruction claims | ... | ... | ... |
+
 ## Files
 | File | New/Modified | Purpose |
 |---|---|---|
